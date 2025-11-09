@@ -1,4 +1,11 @@
 import { ConstructorPage } from '@pages';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation
+} from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 
