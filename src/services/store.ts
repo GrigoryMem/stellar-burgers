@@ -5,8 +5,8 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-
-const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
+import { ingredientSlice } from './slices/ingredients/ingredientSlice';
+import { rootReducerBurger as rootReducer } from './rootReducer';
 
 const store = configureStore({
   reducer: rootReducer,
