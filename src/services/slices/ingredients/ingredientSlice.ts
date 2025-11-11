@@ -3,10 +3,10 @@ import { TIngredient } from '../../../utils/types';
 import { getIngredientsApi } from '@api';
 import { resolveAfterDelay, testIngredients } from 'src/utils/testApi';
 import { RootState } from 'src/services/store';
-import { findElement } from 'src/utils/findElement';
+import { filterElems, findElement } from 'src/utils/findElement';
 // ингридент с отмеченным количеством
 export type IngridientWithChoseCount = TIngredient & {
-  count?: number;
+  count?: number | '';
 };
 //  манипуляции добавления/удаления ингридиента в конструктор
 export type TOperation = {
@@ -24,7 +24,8 @@ export type TIngredientsState = {
 const initialState: TIngredientsState = {
   ingredients: [],
   loading: false,
-  error: null
+  error: null,
+  selectedIngredient: null // по ум модальное окно закрыто
 };
 
 export const getIngredients = createAsyncThunk(
@@ -67,13 +68,32 @@ export const ingredientSlice = createSlice({
       );
       if (!foundInged) return;
       const { element, index } = foundInged;
-      if (action.payload.type === 'increment') {
-        element.count = (element.count || 0) + 1;
-        state.ingredients[index] = element;
-      }
-      if (action.payload.type === 'decrement') {
-        // защита от отрицательного количества ингридиента Math.max(x,0)
-        element.count = (element.count || 0) - 1;
+      //  можно выбрать только один тип булки
+      if (element.type === 'bun') {
+        //  если уже вообще выбранная булка кроме которую сейчас кликаем чтоб выбрать?
+        const choseLastBunInd = state.ingredients.findIndex(
+          (ing) => ing.type === 'bun' && ing.count && ing.count > 0
+        );
+        //  если выбранная булка совпадает с нашей - не даем увеличить количество
+        // чтобы ее значение осталось 1
+        if (choseLastBunInd === index) return;
+        //  если кроме нашей булку выбрали другую
+        if (choseLastBunInd !== -1) {
+          // - сбрасываем  количество у предыдущей выбр булки
+          state.ingredients[choseLastBunInd].count = 0;
+          state.ingredients[index].count = 1;
+        }
+        //  если ничего не выбрано - просто добавляем булку
+        else state.ingredients[index].count = 1;
+      } else {
+        // Условие если ингридиент не булка
+        // решаем ...либо вычитание либо сложение
+        const searchOperation = action.payload.type === 'increment' ? 1 : -1;
+        //  выполняем операцию и зазищаем от отриц числа
+        const num = Math.max((element.count || 0) + searchOperation, 0);
+        //  если число ноль то его и не записываем
+        element.count = num ? num : '';
+        //  сохраняем результат в любом случае
         state.ingredients[index] = element;
       }
     }

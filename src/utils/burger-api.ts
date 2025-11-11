@@ -113,7 +113,7 @@ export const getOrdersApi = () =>
 //  тип данных для создания заказа
 type TNewOrderResponse = TServerResponse<{
   order: TOrder;
-  name: string;
+  name: string; //название заказа, которое сервер возвращает отдельно
 }>;
 // создаем заказ
 export const orderBurgerApi = (data: string[]) =>

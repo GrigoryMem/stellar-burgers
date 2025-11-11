@@ -14,7 +14,7 @@ export type TIngredient = {
 };
 // ингредиент, добавленный пользователем в конструктор
 export type TConstructorIngredient = TIngredient & {
-  id: string; // уникальный id в конструкторе
+  id: string; // уникальный id в конструкторе  конкретного типа ингридиента
 };
 // тип заказа
 export type TOrder = {
