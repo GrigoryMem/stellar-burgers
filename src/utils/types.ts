@@ -1,3 +1,4 @@
+// ингридиент
 export type TIngredient = {
   _id: string;
   name: string;
@@ -11,11 +12,11 @@ export type TIngredient = {
   image_large: string;
   image_mobile: string;
 };
-
+// ингредиент, добавленный пользователем в конструктор
 export type TConstructorIngredient = TIngredient & {
-  id: string;
+  id: string; // уникальный id в конструкторе
 };
-
+// тип заказа
 export type TOrder = {
   _id: string;
   status: string;
@@ -25,7 +26,7 @@ export type TOrder = {
   number: number;
   ingredients: string[];
 };
-
+//  список заказов
 export type TOrdersData = {
   orders: TOrder[];
   total: number;
@@ -36,5 +37,10 @@ export type TUser = {
   email: string;
   name: string;
 };
+// тип вкладок
+// 'bun' — булки,
 
+// 'sauce' — соусы,
+
+// 'main' — начинки (основные ингредиенты).
 export type TTabMode = 'bun' | 'sauce' | 'main';
