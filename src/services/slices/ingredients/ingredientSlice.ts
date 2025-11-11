@@ -11,7 +11,7 @@ export type IngridientWithChoseCount = TIngredient & {
 //  манипуляции добавления/удаления ингридиента в конструктор
 export type TOperation = {
   type: 'increment' | 'decrement';
-  id: string;
+  _id: string;
 };
 
 export type TIngredientsState = {
@@ -64,7 +64,7 @@ export const ingredientSlice = createSlice({
       const foundInged = findElement(
         state.ingredients,
         '_id',
-        action.payload.id
+        action.payload._id
       );
       if (!foundInged) return;
       const { element, index } = foundInged;
@@ -83,7 +83,7 @@ export const ingredientSlice = createSlice({
           state.ingredients[choseLastBunInd].count = 0;
           state.ingredients[index].count = 1;
         }
-        //  если ничего не выбрано - просто добавляем булку
+        //  если ничего не выбрано из булок воощбе -  то просто добавляем булку
         else state.ingredients[index].count = 1;
       } else {
         // Условие если ингридиент не булка
@@ -126,4 +126,6 @@ export const { setSelectedIngredientById, changeCountIngredientById } =
   ingredientSlice.actions;
 export const selectIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
+export const ingredients = (state: RootState) =>
+  state.ingredients.ingredients.filter((item) => item.count);
 export default ingredientSlice.reducer;
