@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { dataIngIds, orderBurgerApi } from '@api';
 import { AppDispatch, dispatch, RootState } from 'src/services/store';
-import { prepareToOrder,clearConstructor } from './constrBurgSlice';
+import { prepareToOrder, clearConstructor } from './constrBurgSlice';
 
 //  нажмем на кнопку чтобы создать заказ
 export const createOrder = createAsyncThunk(
-  'orders/createOrder', // <слайс>/<действие>
+  'order/createOrder', // <слайс>/<действие>
   async (_, thunkApi) => {
     try {
       const state = thunkApi.getState() as RootState;

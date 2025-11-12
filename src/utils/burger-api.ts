@@ -117,7 +117,8 @@ export const getOrdersApi = () =>
 // }>;
 // Корректировка  вместо удаленного - согласно POstman выполнения `${URL}/orders`
 //  тип данных для создания заказа
-type TNewOrderResponse = TServerResponse<{
+
+export type TNewOrderResponse = TServerResponse<{
   order: {
     number: number;
   };
