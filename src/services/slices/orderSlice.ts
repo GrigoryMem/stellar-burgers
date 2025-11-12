@@ -53,3 +53,6 @@ const orderSlice = createSlice({
       );
   }
 });
+
+export const { setCurrentOrder } = orderSlice.actions;
+export default orderSlice.reducer;
