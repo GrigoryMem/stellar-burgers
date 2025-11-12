@@ -4,21 +4,24 @@ import {
   TOperation
 } from '../ingredients/ingredientSlice';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
-import { setIngredients } from './constrBurgSlice';
+import { divideIngridients, setIngredients } from './constrBurgSlice';
 
 export const updateBurgConstrIngreds =
   (operation: TOperation) =>
-  //  можно удалить или добавить ингридиент: тип операции
+  //  можно удалить или добавить ингридиент: тип операции и уник _id ингредиента
   (dispatch: AppDispatch, getState: () => RootState) => {
     // хотим пометить ингредиент  как добавленный или убрать
     dispatch(changeCountIngredientById(operation));
     //  получаем актуальное состояние стора всех  ингридиентов
-    const stateIngredients = getState()
-      .ingredients as unknown as IngridientWithChoseCount[];
+    const stateIngredients = getState().ingredients
+      .ingredients as IngridientWithChoseCount[];
     //  формируем добав ингридиенты в конструктор
     const addedIngrs = stateIngredients.filter(
       (ingr) => ingr.count && ingr.count > 0
     );
     //  сообщаем что состояние конструктора  должно создать массив добавленных ингридиентов
     dispatch(setIngredients(addedIngrs));
+    //  создаем ингридиенты для корзины бургера
+    //  теперь каждый ингредиент разделен на id и уже без count
+    dispatch(divideIngridients());
   };

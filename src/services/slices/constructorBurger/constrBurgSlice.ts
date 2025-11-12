@@ -5,7 +5,7 @@ import {
   TOperation,
   ingredientSlice
 } from '../ingredients/ingredientSlice';
-import { addIdEveryIdIngredients } from 'src/utils/utilsForArrs';
+import { divideIngridientsById } from 'src/utils/utilsForArrs';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 
 type TBurgConstrState = {
@@ -29,11 +29,10 @@ const burgConstrSlice = createSlice({
       state.addedIngredients = action.payload;
     },
     // настроим ингридиенты под корзину конструктора разделив их по id засчте count
+    //  для рендера реакт
     divideIngridients: (state) => {
       if (state.addedIngredients.length > 0) {
-        state.dividedIngwithId = addIdEveryIdIngredients(
-          state.addedIngredients
-        );
+        state.dividedIngwithId = divideIngridientsById(state.addedIngredients);
       }
     }
   }
