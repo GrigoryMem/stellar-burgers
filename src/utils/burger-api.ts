@@ -78,9 +78,9 @@ export type TFeedsResponse = TServerResponse<{
 }>;
 //  ответ от серверас историей заказов
 // для истории заказов пользователя ("/orders")
-type TOrdersResponse = TServerResponse<{
-  //  имзенил с поле data на orders
-  orders: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
+export type TOrdersResponse = TServerResponse<{
+  //  !имзенил с поле data на orders!
+  data: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
 }>;
 // получаем ингридиенты
 export const getIngredientsApi = () =>
@@ -100,15 +100,15 @@ export const getFeedsApi = () =>
     });
 // получаем историю заказов
 export const getOrdersApi = () =>
-  fetchWithRefresh<TOrdersResponse>(`${URL}/orders`, {
-    //  поставил TOrdersResponse вместо TFeedsResponse
+  fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
+    //  !поставил TOrdersResponse вместо TFeedsResponse!
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       authorization: getCookie('accessToken')
     } as HeadersInit // говорим TypeScript, что headers точно правильного типа
   }).then((data) => {
-    if (data?.success) return data.orders;
+    if (data?.success) return data; // убрал data.orders
     return Promise.reject(data);
   });
 //  удалено тип данных для создания заказа

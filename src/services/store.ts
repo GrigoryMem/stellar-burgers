@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-
+import { ApiClients } from './extraArg';
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
@@ -14,8 +14,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: extraArgument // <-- Подключение
-      },
+        extraArgument: extraArgument as ApiClients // <-- Подключение extraArgument
+      }
     }),
   devTools: process.env.NODE_ENV !== 'production'
 });

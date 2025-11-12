@@ -1,6 +1,11 @@
 import { getFeedsApi, getOrdersApi } from '@api';
 
-const extraArgument = {
+export interface ApiClients {
+  getFeedsApi: typeof getFeedsApi;
+  getOrdersApi: typeof getOrdersApi;
+}
+
+const extraArgument: ApiClients = {
   getFeedsApi,
   getOrdersApi
 };
