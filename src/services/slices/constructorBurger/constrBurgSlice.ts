@@ -45,7 +45,7 @@ const burgConstrSlice = createSlice({
       state.idIngredsForOrder = state.dividedIngwithId.map((item) => item._id);
     },
     //  подсчитаем сумму заказа в сторе
-    setTotalSum: (state, action) => {
+    setTotalSum: (state, action: PayloadAction<number>) => {
       state.totalSum = action.payload;
     }
   }
