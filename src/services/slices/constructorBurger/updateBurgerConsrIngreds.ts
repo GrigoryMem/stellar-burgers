@@ -5,7 +5,7 @@ import {
 } from '../ingredients/ingredientSlice';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 import { divideIngridients, setIngredients } from './constrBurgSlice';
-
+//  Используем на кнопку добавить ингридиент в корзину
 export const updateBurgConstrIngreds =
   (operation: TOperation) =>
   //  можно удалить или добавить ингридиент: тип операции и уник _id ингредиента
