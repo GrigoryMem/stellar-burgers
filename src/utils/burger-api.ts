@@ -100,7 +100,7 @@ export const getFeedsApi = () =>
 // получаем историю заказов
 export const getOrdersApi = () =>
   fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
-    //  наверно нужен TOrdersResponse ?
+    //  наверно нужен TOrdersResponse ?!!!!!!!!!!
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -110,9 +110,17 @@ export const getOrdersApi = () =>
     if (data?.success) return data.orders;
     return Promise.reject(data);
   });
+//  удалено тип данных для создания заказа
+// type TNewOrderResponse = TServerResponse<{
+//   order: TOrder;
+//   name: string; //название заказа, которое сервер возвращает отдельно
+// }>;
+// Корректировка  вместо удаленного - согласно POstman выполнения `${URL}/orders`
 //  тип данных для создания заказа
 type TNewOrderResponse = TServerResponse<{
-  order: TOrder;
+  order: {
+    number: number;
+  };
   name: string; //название заказа, которое сервер возвращает отдельно
 }>;
 // создаем заказ
