@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '../../../utils/types';
 import { getIngredientsApi } from '@api';
 import { resolveAfterDelay, testIngredients } from 'src/utils/testApi';
-import { RootState } from 'src/services/store';
-import { filterElems, findElement } from 'src/utils/findElement';
+import { RootState, dispatch } from 'src/services/store';
+import { filterElems, findElement } from 'src/utils/utilsForArrs';
+
 // ингридент с отмеченным количеством
 export type IngridientWithChoseCount = TIngredient & {
-  count?: number | '';
+  count?: number;
 };
 //  манипуляции добавления/удаления ингридиента в конструктор
 export type TOperation = {
@@ -92,7 +93,7 @@ export const ingredientSlice = createSlice({
         //  выполняем операцию и зазищаем от отриц числа
         const num = Math.max((element.count || 0) + searchOperation, 0);
         //  если число ноль то его и не записываем
-        element.count = num ? num : '';
+        element.count = num ? num : 0;
         //  сохраняем результат в любом случае
         state.ingredients[index] = element;
       }
@@ -126,6 +127,5 @@ export const { setSelectedIngredientById, changeCountIngredientById } =
   ingredientSlice.actions;
 export const selectIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
-export const ingredients = (state: RootState) =>
-  state.ingredients.ingredients.filter((item) => item.count);
+export const ingredients = (state: RootState) => state.ingredients.ingredients;
 export default ingredientSlice.reducer;
