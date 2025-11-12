@@ -20,7 +20,6 @@ export const filterElems = <T, K extends keyof T>(
 ): T[] => arr.filter((item) => item[key] === value);
 //  построим массив элементов без элемента с указанным значение ключа
 // напр id!=2
-//  переделать!!!!!
 export const filterWithoutElem = <T, K extends keyof T>(
   arr: T[],
   key: K,
@@ -47,4 +46,14 @@ export const divideIngridientsById = (
     return acc;
   }, []);
   return arr;
+};
+
+//  подсчет суммы заказ
+
+export const calcSum = (arr: IngridientWithChoseCount[]) => {
+  const sum = arr.reduce(
+    (acc, item) => acc + item.price * (item.count || 0),
+    0
+  );
+  return sum;
 };
