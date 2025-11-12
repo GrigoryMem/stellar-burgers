@@ -64,4 +64,5 @@ export const {
   setTotalSum,
   clearConstructor
 } = burgConstrSlice.actions;
+
 export default burgConstrSlice.reducer;

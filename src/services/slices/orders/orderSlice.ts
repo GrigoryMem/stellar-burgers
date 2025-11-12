@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { createOrder } from './constructorBurger/createOrder';
+import { createOrder } from '../constructorBurger/createOrder';
 import { TNewOrderResponse } from '@api';
+import { RootState } from 'src/services/store';
 //  для модального окна
 type TOrderState = {
   currentOrder: TNewOrderResponse | null;
@@ -55,4 +56,6 @@ const orderSlice = createSlice({
 });
 
 export const { setCurrentOrder } = orderSlice.actions;
+export const selectorNewOrder = (state: RootState) =>
+  state.newOrder.currentOrder;
 export default orderSlice.reducer;
