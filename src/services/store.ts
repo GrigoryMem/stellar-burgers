@@ -7,9 +7,16 @@ import {
 } from 'react-redux';
 import { ingredientSlice } from './slices/ingredients/ingredientSlice';
 import { rootReducerBurger as rootReducer } from './rootReducer';
+import extraArgument from './extraArg';
 
 const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: extraArgument // <-- Подключение
+      },
+    }),
   devTools: process.env.NODE_ENV !== 'production'
 });
 
