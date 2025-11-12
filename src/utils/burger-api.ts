@@ -124,7 +124,12 @@ type TNewOrderResponse = TServerResponse<{
   name: string; //название заказа, которое сервер возвращает отдельно
 }>;
 // создаем заказ
-export const orderBurgerApi = (data: string[]) =>
+// исправление вместо data: string[]
+//  стави в место data: { ingredients: string[] }
+export type dataIngIds = {
+  ingredients: string[];
+};
+export const orderBurgerApi = (data: dataIngIds) =>
   fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
     method: 'POST',
     headers: {
