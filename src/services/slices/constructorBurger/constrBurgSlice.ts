@@ -47,6 +47,13 @@ const burgConstrSlice = createSlice({
     //  подсчитаем сумму заказа в сторе
     setTotalSum: (state, action: PayloadAction<number>) => {
       state.totalSum = action.payload;
+    },
+    //  очистим корзину конструктора - => напр если промис будет успешным
+    clearConstructor: (state) => {
+      state.addedIngredients = [];
+      state.dividedIngwithId = [];
+      state.idIngredsForOrder = [];
+      state.totalSum = 0;
     }
   }
 });
@@ -54,6 +61,7 @@ export const {
   setIngredients,
   divideIngridients,
   prepareToOrder,
-  setTotalSum
+  setTotalSum,
+  clearConstructor
 } = burgConstrSlice.actions;
 export default burgConstrSlice.reducer;
