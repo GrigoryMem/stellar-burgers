@@ -31,7 +31,7 @@ export const filterWithoutElem = <T, K extends keyof T>(
 
 // создаем id каждому добавленном ингридиенту в корзине
 
-export const preparWithIdIngreds = (
+export const addIdEveryIdIngredients = (
   ingredients: IngridientWithChoseCount[]
 ): TConstructorIngredient[] => {
   const arr = ingredients.reduce<TConstructorIngredient[]>((acc, item) => {
