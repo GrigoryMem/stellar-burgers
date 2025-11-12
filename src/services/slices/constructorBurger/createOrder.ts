@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { dataIngIds, orderBurgerApi } from '@api';
 import { AppDispatch, dispatch, RootState } from 'src/services/store';
-import { prepareToOrder } from './constrBurgSlice';
+import { prepareToOrder,clearConstructor } from './constrBurgSlice';
 
 //  нажмем на кнопку чтобы создать заказ
 export const createOrder = createAsyncThunk(
@@ -18,6 +18,8 @@ export const createOrder = createAsyncThunk(
       const data = await orderBurgerApi({
         ingredients: stateIngredients
       });
+      //  очищаем конструктор при успешном ответе от сервера
+      dispatch(clearConstructor());
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(`Error: ${error}`);
