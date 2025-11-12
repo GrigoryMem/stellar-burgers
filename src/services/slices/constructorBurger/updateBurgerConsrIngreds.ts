@@ -4,7 +4,12 @@ import {
   TOperation
 } from '../ingredients/ingredientSlice';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
-import { divideIngridients, setIngredients } from './constrBurgSlice';
+import {
+  divideIngridients,
+  setIngredients,
+  setTotalSum
+} from './constrBurgSlice';
+import { calcSum } from 'src/utils/utilsForArrs';
 //  Используем на кнопку добавить ингридиент в корзину
 export const updateBurgConstrIngreds =
   (operation: TOperation) =>
@@ -19,9 +24,11 @@ export const updateBurgConstrIngreds =
     const addedIngrs = stateIngredients.filter(
       (ingr) => ingr.count && ingr.count > 0
     );
-    //  сообщаем что состояние конструктора  должно создать массив добавленных ингридиентов
+    //  сообщаем что состояние конструктора бургера  должно создать массив добавленных ингридиентов
     dispatch(setIngredients(addedIngrs));
     //  создаем ингридиенты для корзины бургера
     //  теперь каждый ингредиент разделен на id и уже без count
     dispatch(divideIngridients());
+    //  подсчитыаем сумму будущего заказа и кладем ее в слайс конструктора бургера
+    dispatch(setTotalSum(calcSum(addedIngrs)));
   };
