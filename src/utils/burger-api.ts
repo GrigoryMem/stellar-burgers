@@ -71,7 +71,7 @@ type TIngredientsResponse = TServerResponse<{
 }>;
 //  лента заказов : тип ответа от сервера котрый возвращает объеьм заказов
 // для ленты заказов (feed)
-type TFeedsResponse = TServerResponse<{
+export type TFeedsResponse = TServerResponse<{
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -79,7 +79,8 @@ type TFeedsResponse = TServerResponse<{
 //  ответ от серверас историей заказов
 // для истории заказов пользователя ("/orders")
 type TOrdersResponse = TServerResponse<{
-  data: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
+  //  имзенил с поле data на orders
+  orders: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
 }>;
 // получаем ингридиенты
 export const getIngredientsApi = () =>
@@ -99,8 +100,8 @@ export const getFeedsApi = () =>
     });
 // получаем историю заказов
 export const getOrdersApi = () =>
-  fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
-    //  наверно нужен TOrdersResponse ?!!!!!!!!!!
+  fetchWithRefresh<TOrdersResponse>(`${URL}/orders`, {
+    //  поставил TOrdersResponse вместо TFeedsResponse
     method: 'GET',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
