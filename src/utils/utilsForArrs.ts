@@ -37,7 +37,8 @@ export const divideIngridientsById = (
   const arr = ingredients.reduce<TConstructorIngredient[]>((acc, item) => {
     const numberIngr = Number(item.count);
     if (numberIngr === 0 || !numberIngr) return acc;
-    for (let i = 1; i <= numberIngr; i++) {
+    const countNumber = Number(item.count) || 0;
+    for (let i = 1; i <= countNumber; i++) {
       //  создаем переменную для разделения ингридиентов по id
       let { count, ...rest } = item;
       let itemWithId = { ...rest, id: String(i) };
