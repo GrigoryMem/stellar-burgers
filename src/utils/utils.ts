@@ -1,5 +1,11 @@
 // Общие
-import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import {
+  TConstructorIngredient,
+  TFullOrder,
+  TIngredient,
+  TOrder,
+  TReadyOrder
+} from '@utils-types';
 import { IngridientWithChoseCount } from 'src/services/slices/ingredients/ingredientSlice';
 //  вернем найденный элемент и его индекс в массиве по ключу элемента(объект)
 export const findElement = <T, K extends keyof T>(
@@ -59,9 +65,12 @@ export const calcSum = (arr: IngridientWithChoseCount[]) => {
 
 //  создаем по по заказам где id  это ингредиенты - объекты ингредиентов
 export function getFullOrdersIngs(
-  userOrders: TOrder[],
+  userOrders: TOrder[] | TFullOrder[],
   allIngedients: IngridientWithChoseCount[]
-) {
+): TFullOrder[] {
+  //  защитник типа для поиска возможных undefined если find вернул indefined
+  const isDefined = <T>(value: T | undefined): value is T =>
+    value !== undefined;
   // пройдемся по массиву заказов
   const fullUserOrderIngredients = userOrders.map((order) => {
     // находим заказ и получим ингридиенты
@@ -71,7 +80,7 @@ export function getFullOrdersIngs(
         // сопоставляя _id ингредиента в заказе с объектом ингредиента
         (ingId) => allIngedients.find((ing) => ing._id === ingId)
       )
-      .filter(Boolean); // удаляем возможные undefined, если ингредиент не найден
+      .filter(isDefined) as IngridientWithChoseCount[]; // удаляем возможные undefined, если ингредиент не найден
     return {
       ...order,
       ingredients: ingredientInfo // вместо _id теперь полноценые ингридиенты в заказе
@@ -81,7 +90,7 @@ export function getFullOrdersIngs(
 }
 
 // преобразование времени  - разобраться как работает
-export const formatDate = (isoString: string): string => {
+export const formatDateOrder = (isoString: string): string => {
   const date = new Date(isoString);
 
   // Текущее время (локальное)
@@ -123,4 +132,26 @@ export const formatDate = (isoString: string): string => {
       year: 'numeric'
     }) + `, ${timeStr}`
   );
+};
+
+//  преобразуем массив заказов подсчитав по каждому стоимость и форматирумем даты
+
+export const ordersWthPriceandFormatDate = (
+  orders: TOrder[] | TFullOrder[]
+) => {
+  const formatORders = orders.map((order) => {
+    //  вычисляем стоимость каждого заказа
+    let price = calcSum(order.ingredients as IngridientWithChoseCount[]);
+    //  теперь форматируем даты заказа
+    let createdAt = formatDateOrder(order.createdAt);
+    let updatedAt = formatDateOrder(order.updatedAt);
+    //  записываем стоимость заказа
+    return {
+      ...order,
+      price: price,
+      createdAt: createdAt,
+      updatedAt: updatedAt
+    };
+  });
+  return formatORders as TReadyOrder[];
 };

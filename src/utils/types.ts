@@ -27,6 +27,13 @@ export type TOrder = {
   ingredients: string[];
   price?: number; // моя строчка - для ленты и истории заказов
 };
+// создаём новый тип на основе TOrder
+export type TFullOrder = Omit<TOrder, 'ingredients'> & {
+  ingredients: TIngredient[];
+};
+export type TReadyOrder = Omit<TFullOrder, 'price'> & {
+  price: number;
+};
 //  список заказов
 export type TOrdersData = {
   orders: TOrder[];

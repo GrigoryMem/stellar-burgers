@@ -1,7 +1,13 @@
 import { getFeedsApi, TFeedsResponse, TOrdersResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TOrder } from '@utils-types';
+import { TFullOrder, TOrder, TReadyOrder } from '@utils-types';
 import { ApiClients } from 'src/services/extraArg';
+import { getIngredients } from '../ingredients/ingredientSlice';
+
+type updateOrders = {
+  orders: TReadyOrder[];
+  typeOrders: 'feed' | 'history';
+};
 
 type TMainOptions = {
   loading: boolean;
@@ -9,19 +15,19 @@ type TMainOptions = {
 };
 //  лента всех заказов
 type TFeedState = TMainOptions & {
-  ordersFeed: TOrder[];
+  ordersFeed: TOrder[] | TReadyOrder[];
   total: number;
   totalToday: number;
 };
 //  история заказов авториз пользователя
 type TUserOrdersState = TMainOptions & {
-  ordersHistory: TOrder[];
+  ordersHistory: TOrder[] | TReadyOrder[];
 };
 
 type CommonOrdersState = {
   feedOrders: TFeedState;
   userOrders: TUserOrdersState;
-  selectOrder: TOrder | null;
+  selectOrder: TReadyOrder | null;
 };
 
 const initialState: CommonOrdersState = {
@@ -47,7 +53,8 @@ export const getFeedOrdersThunk = createAsyncThunk<
   { extra: ApiClients }
 >('orders/FeedOrders', async (_, thunkApi) => {
   try {
-    return await thunkApi.extra.getFeedsApi();
+    const data = await thunkApi.extra.getFeedsApi();
+    return data;
   } catch (err) {
     return thunkApi.rejectWithValue(`Не загрузились лента заказов: ${err}`);
   }
@@ -70,8 +77,14 @@ const feedOrdersSlice = createSlice({
   initialState,
   reducers: {
     //  для модалки
-    setSelectOrder(state, action: PayloadAction<TOrder | null>) {
+    setSelectOrder(state, action: PayloadAction<TReadyOrder>) {
       state.selectOrder = action.payload;
+    },
+    // синхронное обновление полей заказов - форматируем заказы как нам надо
+    setOrders(state, action: PayloadAction<updateOrders>) {
+      action.type === 'feed'
+        ? (state.feedOrders.ordersFeed = action.payload.orders)
+        : (state.userOrders.ordersHistory = action.payload.orders);
     }
   },
   extraReducers(builder) {
@@ -106,5 +119,5 @@ const feedOrdersSlice = createSlice({
       });
   }
 });
-export const { setSelectOrder } = feedOrdersSlice.actions;
+export const { setSelectOrder, setOrders } = feedOrdersSlice.actions;
 export default feedOrdersSlice.reducer;
