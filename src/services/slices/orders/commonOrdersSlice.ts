@@ -39,58 +39,72 @@ const initialState: CommonOrdersState = {
   },
   selectOrder: null
 };
-// получаем ленту заказов
-export const getAnyOrders = (actionName: string) => {
-  const acynsActionFunc = createAsyncThunk<
-    TFeedsResponse | TOrdersResponse,
-    void,
-    { extra: ApiClients }
-  >(actionName, async (_, thunkApi) => {
-    let textError;
-    try {
-      let data: TFeedsResponse | TOrdersResponse;
-      const { getFeedsApi, getOrdersApi } = thunkApi.extra;
-      if (actionName === 'orders/getUserOrders') {
-        data = await getOrdersApi();
-        textError = 'не загрузились история заказов пользователя';
-      }
-      if (actionName === 'orders/FeedOrders') {
-        data = await getFeedsApi();
-        textError = 'не загрузились общая лента заказов';
-      } else {
-        // если имя не совпадает ни с одним вариантом
-        return thunkApi.rejectWithValue(`
-          Неизвестный actionName: ${actionName}`);
-      }
-      return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Error:${textError} ${error}`);
-    }
-  });
-  return acynsActionFunc;
-};
 
-// export const getFeedOrders = createAsyncThunk(
-//   'feedOrders/getFeedOrders',
-//   async (_, thunkApi) => {
-//     try {
-//       const data = await getFeedsApi();
-//       return data;
-//     } catch (error) {
-//       // чтобы иметь чёткий текст ошибки для UI.
-//       // rejectWithValue позволяет передать свой payload для ошибки,
-//       // который потом будет доступен в редьюсере через action.payload.
-//       return thunkApi.rejectWithValue(`Error: ${error}`);
-//     }
-//   }
-// );
+//  выбираем , что будем загружать либо ленте заказов либо историю заказов пользователя
+export const getFeedOrdersThunk = createAsyncThunk<
+  TFeedsResponse,
+  void,
+  { extra: ApiClients }
+>('orders/FeedOrders', async (_, thunkApi) => {
+  try {
+    return await thunkApi.extra.getFeedsApi();
+  } catch (err) {
+    return thunkApi.rejectWithValue(`Не загрузились лента заказов: ${err}`);
+  }
+});
+
+export const getUserOrdersThunk = createAsyncThunk<
+  TOrdersResponse,
+  void,
+  { extra: ApiClients }
+>('orders/getUserOrders', async (_, thunkApi) => {
+  try {
+    return await thunkApi.extra.getOrdersApi();
+  } catch (err) {
+    return thunkApi.rejectWithValue(`Не загрузились история заказов: ${err}`);
+  }
+});
 
 const feedOrdersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    
+    //  для модалки
+    setSelectOrder(state, action: PayloadAction<TOrder | null>) {
+      state.selectOrder = action.payload;
+    }
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(getFeedOrdersThunk.pending, (state) => {
+        state.feedOrders.loading = true;
+        state.feedOrders.error = null;
+      })
+      .addCase(getFeedOrdersThunk.rejected, (state, action) => {
+        state.feedOrders.loading = false;
+        state.feedOrders.error =
+          (action.payload as string) || action.error.message || 'Error';
+      })
+      .addCase(getFeedOrdersThunk.fulfilled, (state, action) => {
+        state.feedOrders.loading = false;
+        state.feedOrders.ordersFeed = action.payload.orders;
+        state.feedOrders.total = action.payload.total;
+        state.feedOrders.totalToday = action.payload.totalToday;
+      })
+      .addCase(getUserOrdersThunk.pending, (state) => {
+        state.userOrders.loading = true;
+        state.userOrders.error = null;
+      })
+      .addCase(getUserOrdersThunk.rejected, (state, action) => {
+        state.userOrders.loading = false;
+        state.userOrders.error =
+          (action.payload as string) || action.error.message || 'Error';
+      })
+      .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
+        state.userOrders.loading = false;
+        state.userOrders.ordersHistory = action.payload.data;
+      });
   }
 });
-
+export const { setSelectOrder } = feedOrdersSlice.actions;
 export default feedOrdersSlice.reducer;

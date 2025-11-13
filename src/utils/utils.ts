@@ -1,5 +1,5 @@
 // Общие
-import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { IngridientWithChoseCount } from 'src/services/slices/ingredients/ingredientSlice';
 
 //  вернем найденный элемент и его индекс в массиве по ключу элемента(объект)
@@ -52,8 +52,36 @@ export const divideIngridientsById = (
 
 export const calcSum = (arr: IngridientWithChoseCount[]) => {
   const sum = arr.reduce(
-    (acc, item) => acc + item.price * (item.count || 0),
+    (acc, item) => acc + item.price * (item.count || 1),
     0
   );
   return sum;
 };
+
+//  создаем по по заказам где id  это ингредиенты - объекты ингредиентов
+export function getFullOrdersIngs(
+  userOrders: TOrder[],
+  allIngedients: IngridientWithChoseCount[]
+) {
+  // пройдемся по массиву заказов
+  const fullUserOrderIngredients = userOrders.map((order) => {
+    // находим заказ и получим ингридиенты
+    const ingredientInfo = order.ingredients
+      .map(
+        // преобразуем ингредиент в заказе из _id в полноценный ингридиент
+        // сопоставляя _id ингредиента в заказе с объектом ингредиента
+        (ingId) => allIngedients.find((ing) => ing._id === ingId)
+      )
+      .filter(Boolean); // удаляем возможные undefined, если ингредиент не найден
+    return {
+      ...order,
+      ingredients: ingredientInfo // вместо _id теперь полноценые ингридиенты в заказе
+    };
+  });
+  return fullUserOrderIngredients;
+}
+
+
+// преобразование времени 
+
+

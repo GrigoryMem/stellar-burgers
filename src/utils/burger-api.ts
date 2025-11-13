@@ -79,7 +79,6 @@ export type TFeedsResponse = TServerResponse<{
 //  ответ от серверас историей заказов
 // для истории заказов пользователя ("/orders")
 export type TOrdersResponse = TServerResponse<{
-  //  !имзенил с поле data на orders!
   data: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
 }>;
 // получаем ингридиенты
@@ -100,7 +99,7 @@ export const getFeedsApi = () =>
     });
 // получаем историю заказов
 export const getOrdersApi = () =>
-  fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
+  fetchWithRefresh<TOrdersResponse>(`${URL}/orders`, {
     //  !поставил TOrdersResponse вместо TFeedsResponse!
     method: 'GET',
     headers: {

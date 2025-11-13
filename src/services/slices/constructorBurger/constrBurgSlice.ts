@@ -5,7 +5,7 @@ import {
   TOperation,
   ingredientSlice
 } from '../ingredients/ingredientSlice';
-import { divideIngridientsById } from 'src/utils/utilsForArrs';
+import { divideIngridientsById } from 'src/utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 
 type TBurgConstrState = {

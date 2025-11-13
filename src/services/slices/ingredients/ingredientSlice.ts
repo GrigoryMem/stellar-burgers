@@ -3,7 +3,7 @@ import { TIngredient } from '../../../utils/types';
 import { getIngredientsApi } from '@api';
 import { resolveAfterDelay, testIngredients } from 'src/utils/testApi';
 import { RootState, dispatch } from 'src/services/store';
-import { filterElems, findElement } from 'src/utils/utilsForArrs';
+import { filterElems, findElement } from 'src/utils/utils';
 
 // ингридент с отмеченным количеством
 export type IngridientWithChoseCount = TIngredient & {

@@ -25,6 +25,7 @@ export type TOrder = {
   updatedAt: string;
   number: number;
   ingredients: string[];
+  price?: number; // моя строчка - для ленты и истории заказов
 };
 //  список заказов
 export type TOrdersData = {

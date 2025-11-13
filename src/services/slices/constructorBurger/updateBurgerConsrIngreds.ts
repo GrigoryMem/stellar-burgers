@@ -9,7 +9,7 @@ import {
   setIngredients,
   setTotalSum
 } from './constrBurgSlice';
-import { calcSum } from 'src/utils/utilsForArrs';
+import { calcSum } from 'src/utils/utils';
 //  Используем на кнопку добавить ингридиент в корзину
 export const updateBurgConstrIngreds =
   (operation: TOperation) =>
@@ -32,3 +32,5 @@ export const updateBurgConstrIngreds =
     //  подсчитыаем сумму будущего заказа и кладем ее в слайс конструктора бургера
     dispatch(setTotalSum(calcSum(addedIngrs)));
   };
+// Пользователь нажал кнопку "Добавить котлету"
+// dispatch(updateBurgConstrIngreds({ _id: '2', type: 'add' }));
