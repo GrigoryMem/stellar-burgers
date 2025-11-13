@@ -1,7 +1,6 @@
 // Общие
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { IngridientWithChoseCount } from 'src/services/slices/ingredients/ingredientSlice';
-
 //  вернем найденный элемент и его индекс в массиве по ключу элемента(объект)
 export const findElement = <T, K extends keyof T>(
   arr: T[],
@@ -81,7 +80,47 @@ export function getFullOrdersIngs(
   return fullUserOrderIngredients;
 }
 
+// преобразование времени  - разобраться как работает
+export const formatDate = (isoString: string): string => {
+  const date = new Date(isoString);
 
-// преобразование времени 
+  // Текущее время (локальное)
+  const now = new Date();
 
+  // Преобразуем оба времени в местное время с учётом GMT+3
+  const localOffsetMs = 3 * 60 * 60 * 1000; // 3 часа в миллисекундах
+  const localDate = new Date(date.getTime() + localOffsetMs);
+  const localNow = new Date(now.getTime() + localOffsetMs);
 
+  // Вычисляем разницу в днях (только дата, без часов)
+  const dateOnly = new Date(
+    localDate.getFullYear(),
+    localDate.getMonth(),
+    localDate.getDate()
+  );
+  const nowOnly = new Date(
+    localNow.getFullYear(),
+    localNow.getMonth(),
+    localNow.getDate()
+  );
+  const diffDays = Math.floor(
+    (nowOnly.getTime() - dateOnly.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  // Получаем время в формате HH:MM
+  const hours = localDate.getHours().toString().padStart(2, '0');
+  const minutes = localDate.getMinutes().toString().padStart(2, '0');
+  const timeStr = `${hours}:${minutes} i-GMT+3`;
+
+  // Формируем текст в зависимости от разницы
+  if (diffDays === 0) return `Сегодня, ${timeStr}`;
+  if (diffDays === 1) return `Вчера, ${timeStr}`;
+  if (diffDays < 5) return `${diffDays} дня назад, ${timeStr}`;
+  return (
+    localDate.toLocaleDateString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    }) + `, ${timeStr}`
+  );
+};
