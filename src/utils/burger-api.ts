@@ -1,3 +1,4 @@
+import { TLoginData } from 'src/services/slices/user/userSlice';
 import { setCookie, getCookie } from './cookie';
 import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 // Проверка ответа сервера
@@ -186,11 +187,11 @@ export const registerUserApi = (data: TRegisterData) =>
       return Promise.reject(data);
     });
 //  авторизация
-export type TLoginData = {
-  email: string;
-  password: string;
-};
-//  производим саму авторизацию
+// export type TLoginData = {
+//   email: string;
+//   password: string;
+// };
+//  производим саму авторизацию без токенов
 export const loginUserApi = (data: TLoginData) =>
   fetch(`${URL}/auth/login`, {
     method: 'POST',
@@ -204,7 +205,11 @@ export const loginUserApi = (data: TLoginData) =>
       if (data?.success) return data;
       return Promise.reject(data);
     });
-// вводим если забыли пароль
+
+type customMessage = {
+  message: string;
+};
+// вводим если забыли пароль - без токенов
 export const forgotPasswordApi = (data: { email: string }) =>
   fetch(`${URL}/password-reset`, {
     method: 'POST',
@@ -213,7 +218,8 @@ export const forgotPasswordApi = (data: { email: string }) =>
     },
     body: JSON.stringify(data)
   })
-    .then((res) => checkResponse<TServerResponse<{}>>(res))
+    // УБРАЛ.then((res) => checkResponse<TServerResponse<{}>>(res))
+    .then((res) => checkResponse<TServerResponse<customMessage>>(res))
     .then((data) => {
       if (data?.success) return data;
       return Promise.reject(data);
@@ -227,7 +233,8 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
     },
     body: JSON.stringify(data)
   })
-    .then((res) => checkResponse<TServerResponse<{}>>(res))
+    // .then((res) => checkResponse<TServerResponse<{}>>(res))
+    .then((res) => checkResponse<TServerResponse<customMessage>>(res))
     .then((data) => {
       if (data?.success) return data;
       return Promise.reject(data);
@@ -241,7 +248,13 @@ export const getUserApi = () =>
       authorization: getCookie('accessToken')
     } as HeadersInit // типзаголовков
   });
-//  обновление токена?
+//  токен
+// используется тогда, когда нужно изменить данные пользователя на его стр с помощью токена.
+// используем с обновлением токена
+// Этот эндпоинт требует авторизации,
+// потому что пользователь меняет свои данные.
+
+// fetchWithRefresh автоматически обновит accessToken, если он устарел, и повторит запрос.
 export const updateUserApi = (user: Partial<TRegisterData>) =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     method: 'PATCH',
@@ -261,7 +274,8 @@ export const logoutApi = () =>
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken')
     })
-  }).then((res) => checkResponse<TServerResponse<{}>>(res));
+  }).then((res) => checkResponse<TServerResponse<customMessage>>(res));
+// }).then((res) => checkResponse<TServerResponse<{}>>(res));
 
 // 1.fetchWithRefresh нужен только там,
 // где запрос требует авторизации (т.е. accessToken)
