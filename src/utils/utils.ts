@@ -155,3 +155,10 @@ export const ordersWthPriceandFormatDate = (
   });
   return formatORders as TReadyOrder[];
 };
+
+export const filterIngredients = (arr: TIngredient[]) => {
+  const bunsArr = filterElems(arr, 'type', 'bun');
+  const mainsArr = filterElems(arr, 'type', 'main');
+  const saucesArr = filterElems(arr, 'type', 'sauce');
+  return { bunsArr, mainsArr, saucesArr };
+};
