@@ -1,11 +1,10 @@
 import { TFullOrder, TOrder } from '@utils-types';
-import { AppDispatch, dispatch, RootState } from 'src/services/store';
+import { AppDispatch, RootState } from '../../store';
 import {
   getFullOrdersIngs,
   ordersWthPriceandFormatDate
-} from 'src/utils/utils';
+} from '../../../utils/utils';
 import { getIngredients } from '../ingredients/ingredientSlice';
-import { formatDate } from 'date-fns';
 import {
   getFeedOrdersThunk,
   getUserOrdersThunk,

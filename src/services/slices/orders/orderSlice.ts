@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TReadyOrder } from '@utils-types';
 import { createOrder } from '../constructorBurger/createOrder';
 import { getOrderByNumberApi, TNewOrderResponse, TOrdersResponse } from '@api';
-import { RootState } from 'src/services/store';
+import { RootState } from '../../store';
 //  для модального окна
 type TOrderState = {
   currentCreateOrder: TNewOrderResponse | null;

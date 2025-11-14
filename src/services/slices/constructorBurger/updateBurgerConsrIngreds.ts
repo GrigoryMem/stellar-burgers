@@ -1,4 +1,4 @@
-import { AppDispatch, dispatch, RootState } from 'src/services/store';
+import { AppDispatch, RootState } from '../../store';
 import {
   changeCountIngredientById,
   TOperation
@@ -9,7 +9,7 @@ import {
   setIngredients,
   setTotalSum
 } from './constrBurgSlice';
-import { calcSum } from 'src/utils/utils';
+import { calcSum } from '../../../utils/utils';
 //  Используем на кнопку добавить ингридиент в корзину
 export const updateBurgConstrIngreds =
   (operation: TOperation) =>

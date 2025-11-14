@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '../../../utils/types';
 import { getIngredientsApi } from '@api';
-import { resolveAfterDelay, testIngredients } from 'src/utils/testApi';
-import { RootState, dispatch } from 'src/services/store';
-import { filterElems, findElement } from 'src/utils/utils';
+import { RootState } from '../../store';
+import { filterElems, findElement } from '../../../utils/utils';
 
 // ингридент с отмеченным количеством
 export type IngridientWithChoseCount = TIngredient & {
@@ -127,5 +126,6 @@ export const { setSelectedIngredientById, changeCountIngredientById } =
   ingredientSlice.actions;
 export const selectIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
-export const ingredients = (state: RootState) => state.ingredients.ingredients;
+export const ingredientsSelector = (state: RootState) =>
+  state.ingredients.ingredients;
 export default ingredientSlice.reducer;

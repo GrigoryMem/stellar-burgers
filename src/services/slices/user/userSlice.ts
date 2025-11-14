@@ -29,16 +29,6 @@ export type TFieldType<T> = {
   value: string;
 };
 
-export const userActions = {
-  registr: 'user/registr',
-  login: 'user/login',
-  forgot: 'user/forgotPassword',
-  reset: 'user/resetPassword',
-  logout: 'user/logout',
-  checkAuthAccessToken: 'user/checkAuthByToken',
-  updateUser: 'user/updateUser'
-};
-
 // 2. Начальное состояние
 const initialState: AuthState = {
   user: null,

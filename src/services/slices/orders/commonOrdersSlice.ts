@@ -1,7 +1,7 @@
 import { getFeedsApi, TFeedsResponse, TOrdersResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TFullOrder, TOrder, TReadyOrder } from '@utils-types';
-import { ApiClients } from 'src/services/extraArg';
+import { ApiClients } from '../../../services/extraArg';
 import { getIngredients } from '../ingredients/ingredientSlice';
 
 type updateOrders = {

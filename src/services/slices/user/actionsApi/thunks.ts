@@ -7,21 +7,23 @@ import {
   registerUserApi,
   resetPasswordApi,
   TRegisterData
-} from 'src/utils/burger-api';
-import { clearUser, TLoginData, userActions } from '../userSlice';
-import { deleteCookie, setCookie } from 'src/utils/cookie';
+} from '../../../../utils/burger-api';
+import { clearUser, TLoginData } from '../userSlice';
+import { deleteCookie, setCookie } from '../../../../utils/cookie';
 import { TUser } from '@utils-types';
 
-const registr = userActions.registr;
-const login = userActions.login;
-const forgot = userActions.forgot;
-const reset = userActions.reset;
-const checkAuthAccessToken = userActions.checkAuthAccessToken;
-const updateUser = userActions.updateUser;
-const logout = userActions.logout;
+export const userActions = {
+  registr: 'user/registr',
+  login: 'user/login',
+  forgot: 'user/forgotPassword',
+  reset: 'user/resetPassword',
+  logout: 'user/logout',
+  checkAuthAccessToken: 'user/checkAuthByToken',
+  updateUser: 'user/updateUser'
+};
 
 export const registerUser = createAsyncThunk(
-  registr,
+  userActions.registr,
   async ({ name, email, password }: TRegisterData, thunkApi) => {
     try {
       const data = await registerUserApi({ name, email, password });
@@ -44,7 +46,7 @@ export const registerUser = createAsyncThunk(
 );
 // Вход
 export const loginUser = createAsyncThunk(
-  login,
+  userActions.login,
   async ({ email, password }: TLoginData, thunkApi) => {
     try {
       const data = await loginUserApi({ email, password });
@@ -67,7 +69,7 @@ export const loginUser = createAsyncThunk(
 //  забыли пароль
 
 export const forgotPassword = createAsyncThunk(
-  forgot,
+  userActions.forgot,
   async (email: string, thunkApi) => {
     try {
       const data = await forgotPasswordApi({ email });
@@ -85,7 +87,7 @@ export const forgotPassword = createAsyncThunk(
 
 // сброс пароля
 export const resetPassword = createAsyncThunk(
-  reset,
+  userActions.reset,
   //  не забудь получить рефреш токен из хранилища
   async (data: { password: string; token: string }, thunkApi) => {
     try {
@@ -103,7 +105,7 @@ export const resetPassword = createAsyncThunk(
 // авторизация по токену доступа
 
 export const checkAuthWithToken = createAsyncThunk(
-  checkAuthAccessToken,
+  userActions.checkAuthAccessToken,
   async (_, thunkApi) => {
     try {
       const data = await getUserApi(); // вернём объект { success, user }
@@ -117,7 +119,7 @@ export const checkAuthWithToken = createAsyncThunk(
 
 // обновить данные пользователя
 export const updateUserData = createAsyncThunk(
-  updateUser,
+  userActions.updateUser,
   async (user: Partial<TRegisterData>, thunkApi) => {
     try {
       const data = await getUserApi(); // вернём объект { success, user }
@@ -130,17 +132,20 @@ export const updateUserData = createAsyncThunk(
 );
 
 //  выход из системы
-export const logoutUser = createAsyncThunk(logout, async (_, thunkApi) => {
-  try {
-    const data = await logoutApi(); // вернём объект { success, user }
-    // удалим токены
-    localStorage.clear();
-    deleteCookie('accessToken');
-    // удалим данные пользователя из хранилища
-    thunkApi.dispatch(clearUser());
-    // вернем данные выхода из системы
-    return data;
-  } catch (error) {
-    return thunkApi.rejectWithValue(`Ошибка выхода из системы: ${error}`);
+export const logoutUser = createAsyncThunk(
+  userActions.logout,
+  async (_, thunkApi) => {
+    try {
+      const data = await logoutApi(); // вернём объект { success, user }
+      // удалим токены
+      localStorage.clear();
+      deleteCookie('accessToken');
+      // удалим данные пользователя из хранилища
+      thunkApi.dispatch(clearUser());
+      // вернем данные выхода из системы
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Ошибка выхода из системы: ${error}`);
+    }
   }
-});
+);

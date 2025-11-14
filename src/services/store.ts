@@ -5,7 +5,6 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { ingredientSlice } from './slices/ingredients/ingredientSlice';
 import { rootReducerBurger as rootReducer } from './rootReducer';
 import extraArgument from './extraArg';
 
@@ -26,6 +25,5 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-export const dispatch: AppDispatch = useDispatch();
 
 export default store;

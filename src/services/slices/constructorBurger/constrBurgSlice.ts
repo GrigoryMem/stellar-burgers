@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient, TOrder } from '@utils-types';
 import {
-  ingredients,
+  ingredientsSelector,
   TOperation,
   ingredientSlice
 } from '../ingredients/ingredientSlice';
-import { divideIngridientsById } from 'src/utils/utils';
+import { divideIngridientsById } from '../../../utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 
 type TBurgConstrState = {

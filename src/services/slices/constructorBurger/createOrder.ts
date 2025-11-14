@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { dataIngIds, orderBurgerApi } from '@api';
-import { AppDispatch, dispatch, RootState } from 'src/services/store';
+import { AppDispatch, RootState } from '../../store';
 import { prepareToOrder, clearConstructor } from './constrBurgSlice';
 
 //  нажмем на кнопку чтобы создать заказ
