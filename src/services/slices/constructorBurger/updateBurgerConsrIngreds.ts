@@ -24,7 +24,7 @@ export const updateBurgConstrIngreds =
     const addedIngrs = stateIngredients.filter(
       (ingr) => ingr.count && ingr.count > 0
     );
-    console.log(addedIngrs);
+    // console.log(addedIngrs);
     //  сообщаем что состояние конструктора бургера  должно создать массив добавленных ингридиентов
     dispatch(setIngredients(addedIngrs));
     //  создаем ингридиенты для корзины бургера

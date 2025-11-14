@@ -31,21 +31,17 @@ const burgConstrSlice = createSlice({
       state,
       action: PayloadAction<IngridientWithChoseCount[]>
     ) => {
-      state.addedIngredients = [...state.addedIngredients, ...action.payload];
+      state.addedIngredients = [...action.payload];
     },
     // настроим ингридиенты под корзину конструктора разделив их по id засчте count
     //  для рендера реакт
     divideIngridients: (state, action) => {
-      state.dividedIngwithId = [
-        ...state.dividedIngwithId,
-        ...divideIngridientsById(action.payload)
-      ];
+      state.dividedIngwithId = [...divideIngridientsById(action.payload)];
     },
     // подготовим добавленные ингридиенты в корзине к созданию заказа
     prepareToOrder: (state) => {
       //  положим все id ингридиентов в массив для нашего заказ
       state.idIngredsForOrder = [
-        ...state.idIngredsForOrder,
         ...state.dividedIngwithId.map((item) => item._id)
       ];
     },
@@ -74,3 +70,7 @@ export default burgConstrSlice.reducer;
 
 export const addedIngrtsSelector = (state: RootState) =>
   state.constructorBurgers.addedIngredients;
+export const dividedIngrtsSelector = (state: RootState) =>
+  state.constructorBurgers.dividedIngwithId;
+export const totalSumSelector = (state: RootState) =>
+  state.constructorBurgers.totalSum;
