@@ -127,11 +127,10 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.customResetMessage = action.payload.message;
       })
-      // Авторизация по токену
+      // Авторизация по токену - получение данных пользователя
       .addCase(checkAuthWithToken.pending, (state) => {
         state.isLoading = true;
         state.error = null;
-        state.isAuthChecked = false;
       })
       .addCase(checkAuthWithToken.rejected, (state, action) => {
         state.isLoading = false;
@@ -145,7 +144,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
-        state.isAuthChecked = true;
+        state.isAuthChecked = true; // проверка токена окончена
       })
       // обновление данных позльзователя
       .addCase(updateUserData.pending, (state) => {
@@ -156,10 +155,12 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error =
           (action.payload as string) || action.error.message || 'Error';
+        state.isAuthChecked = true; // ?
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
+        state.isAuthChecked = true; // ?
       })
       // выход
       .addCase(logoutUser.pending, (state) => {
@@ -170,12 +171,13 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error =
           (action.payload as string) || action.error.message || 'Error';
+         state.isAuthChecked = true;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
-        state.isAuthChecked = false;
+        state.isAuthChecked = true;
         state.customResetMessage = action.payload.message;
       });
   }
