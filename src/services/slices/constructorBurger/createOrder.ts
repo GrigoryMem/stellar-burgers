@@ -14,15 +14,14 @@ export const createOrder = createAsyncThunk(
       //  получаем  актуальное состояние id ингридиентов
       const stateIngredients = (thunkApi.getState() as RootState)
         .constructorBurgers.idIngredsForOrder;
+      console.log(stateIngredients);
       //  создаем заказ и отправляем его на сервер
-      const data = await orderBurgerApi({
-        ingredients: stateIngredients
-      });
+      const data = await orderBurgerApi(stateIngredients);
       //  очищаем конструктор при успешном ответе от сервера
       dispatch(clearConstructor());
       return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(`Error: ${error}`);
+      return thunkApi.rejectWithValue(`Проблема при создании заказа: ${error}`);
     }
   }
 );

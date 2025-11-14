@@ -131,7 +131,7 @@ export type TNewOrderResponse = TServerResponse<{
 export type dataIngIds = {
   ingredients: string[];
 };
-export const orderBurgerApi = (data: dataIngIds) =>
+export const orderBurgerApi = (data: string[]) =>
   fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
     method: 'POST',
     headers: {

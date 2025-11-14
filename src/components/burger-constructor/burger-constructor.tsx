@@ -2,13 +2,15 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch, AppDispatch } from '../../services/store';
 import { filterIngredients } from '../../utils/utils';
 import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
+import { createOrder } from '../../services/slices/constructorBurger/createOrder';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  const dispatch: AppDispatch = useDispatch();
   const allIngedients = useSelector(ingredientsSelector);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   const addedIngredients = useSelector(dividedIngrtsSelector);
@@ -31,6 +33,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    dispatch(createOrder());
   };
   const closeOrderModal = () => {};
 
