@@ -127,4 +127,5 @@ export const ingredientsSelector = (state: RootState) =>
   state.ingredients.ingredients;
 export const selectedIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
+export const loadingSelector = (state: RootState) => state.ingredients.loading;
 export default ingredientSlice.reducer;

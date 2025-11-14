@@ -14,11 +14,6 @@ export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(ingredientsSelector);
   // console.log(ingredients);
   const { bunsArr, mainsArr, saucesArr } = filterIngredients(ingredients);
-  const dispatch: AppDispatch = useDispatch();
-  useEffect(() => {
-    // загружаем ингридиенты в стор
-    dispatch(getIngredients());
-  }, []);
   const buns = bunsArr;
   const mains = mainsArr;
   const sauces = saucesArr;
