@@ -62,7 +62,7 @@ const orderSlice = createSlice({
           state.currentCreateOrder = action.payload;
         }
       )
-      //  по номеру получим заказ 
+      //  по номеру получим заказ
       .addCase(getOrderByNumber.pending, (state) => {
         state.loading = true;
         state.error = null;

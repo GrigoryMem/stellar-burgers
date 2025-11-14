@@ -171,7 +171,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error =
           (action.payload as string) || action.error.message || 'Error';
-         state.isAuthChecked = true;
+        state.isAuthChecked = true;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.isLoading = false;
