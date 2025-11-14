@@ -14,12 +14,13 @@ import '../../index.css';
 import styles from './app.module.css';
 import { ProtectedRoute } from '../protected-route';
 import { useNavigate } from 'react-router-dom';
-
+import { useGoBack } from '../../utils/hooks';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const goBack = useGoBack();
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -79,7 +80,7 @@ const App = () => {
         <Route
           path='/feed/:number'
           element={
-            <Modal onClose={() => {}} title=''>
+            <Modal onClose={goBack} title='Заказ ленты подробно'>
               <OrderInfo />
             </Modal>
           }
@@ -87,12 +88,7 @@ const App = () => {
         <Route
           path='/ingredients/:id'
           element={
-            <Modal
-              onClose={() => {
-                navigate(-1);
-              }}
-              title='Ингридиент подробно'
-            >
+            <Modal onClose={goBack} title='Ингридиент подробно'>
               <IngredientDetails />
             </Modal>
           }
@@ -101,7 +97,7 @@ const App = () => {
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
-              <Modal onClose={() => {}} title=''>
+              <Modal onClose={goBack} title='Ваш заказ подробно'>
                 <OrderInfo />
               </Modal>
             </ProtectedRoute>
