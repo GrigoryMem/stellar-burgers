@@ -24,11 +24,12 @@ export const updateBurgConstrIngreds =
     const addedIngrs = stateIngredients.filter(
       (ingr) => ingr.count && ingr.count > 0
     );
+    console.log(addedIngrs);
     //  сообщаем что состояние конструктора бургера  должно создать массив добавленных ингридиентов
     dispatch(setIngredients(addedIngrs));
     //  создаем ингридиенты для корзины бургера
     //  теперь каждый ингредиент разделен на id и уже без count
-    dispatch(divideIngridients());
+    dispatch(divideIngridients(addedIngrs));
     //  подсчитыаем сумму будущего заказа и кладем ее в слайс конструктора бургера
     dispatch(setTotalSum(calcSum(addedIngrs)));
   };

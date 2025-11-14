@@ -12,7 +12,7 @@ import { filterIngredients } from '../../utils/utils';
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
   const ingredients = useSelector(ingredientsSelector);
-  console.log(ingredients);
+  // console.log(ingredients);
   const { bunsArr, mainsArr, saucesArr } = filterIngredients(ingredients);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {

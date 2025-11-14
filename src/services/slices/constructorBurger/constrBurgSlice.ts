@@ -30,19 +30,23 @@ const burgConstrSlice = createSlice({
       state,
       action: PayloadAction<IngridientWithChoseCount[]>
     ) => {
-      state.addedIngredients = action.payload;
+      state.addedIngredients = [...state.addedIngredients, ...action.payload];
     },
     // настроим ингридиенты под корзину конструктора разделив их по id засчте count
     //  для рендера реакт
-    divideIngridients: (state) => {
-      if (state.addedIngredients.length > 0) {
-        state.dividedIngwithId = divideIngridientsById(state.addedIngredients);
-      }
+    divideIngridients: (state, action) => {
+      state.dividedIngwithId = [
+        ...state.dividedIngwithId,
+        ...divideIngridientsById(action.payload)
+      ];
     },
     // подготовим добавленные ингридиенты в корзине к созданию заказа
     prepareToOrder: (state) => {
       //  положим все id ингридиентов в массив для нашего заказ
-      state.idIngredsForOrder = state.dividedIngwithId.map((item) => item._id);
+      state.idIngredsForOrder = [
+        ...state.idIngredsForOrder,
+        ...state.dividedIngwithId.map((item) => item._id)
+      ];
     },
     //  подсчитаем сумму заказа в сторе
     setTotalSum: (state, action: PayloadAction<number>) => {
