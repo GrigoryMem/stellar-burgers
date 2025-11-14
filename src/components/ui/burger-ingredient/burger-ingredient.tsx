@@ -9,12 +9,20 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 
 import { TBurgerIngredientUIProps } from './type';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../services/store';
+import { setSelectedIngredientById } from '../../../services/slices/ingredients/ingredientSlice';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
   ({ ingredient, count, handleAdd, locationState }) => {
     const { image, price, name, _id } = ingredient;
+    const dispatch: AppDispatch = useDispatch();
+    const setAdditionInfoIng = () => {
+      dispatch(setSelectedIngredientById(_id));
+    };
+
     return (
-      <li className={styles.container}>
+      <li onClick={setAdditionInfoIng} className={styles.container}>
         <Link
           className={styles.article}
           to={`/ingredients/${_id}`}

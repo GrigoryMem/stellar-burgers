@@ -125,4 +125,6 @@ export const selectIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
 export const ingredientsSelector = (state: RootState) =>
   state.ingredients.ingredients;
+export const selectedIngredient = (state: RootState) =>
+  state.ingredients.selectedIngredient;
 export default ingredientSlice.reducer;
