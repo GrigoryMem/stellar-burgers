@@ -7,6 +7,7 @@ import {
 } from '../ingredients/ingredientSlice';
 import { divideIngridientsById } from '../../../utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
+import { RootState } from 'src/services/store';
 
 type TBurgConstrState = {
   addedIngredients: TIngredient[];
@@ -70,3 +71,6 @@ export const {
 } = burgConstrSlice.actions;
 
 export default burgConstrSlice.reducer;
+
+export const addedIngrtsSelector = (state: RootState) =>
+  state.constructorBurgers.addedIngredients;

@@ -68,23 +68,20 @@ export const ingredientSlice = createSlice({
       );
       if (!foundInged) return;
       const { element, index } = foundInged;
-      //  можно выбрать только один тип булки
       if (element.type === 'bun') {
-        //  если уже вообще выбранная булка кроме которую сейчас кликаем чтоб выбрать?
-        const choseLastBunInd = state.ingredients.findIndex(
+        // находим индекс текущей выбранной булки (если есть)
+        const currentBunIndex = state.ingredients.findIndex(
           (ing) => ing.type === 'bun' && ing.count && ing.count > 0
         );
-        //  если выбранная булка совпадает с нашей - не даем увеличить количество
-        // чтобы ее значение осталось 1
-        if (choseLastBunInd === index) return;
-        //  если кроме нашей булку выбрали другую
-        if (choseLastBunInd !== -1) {
-          // - сбрасываем  количество у предыдущей выбр булки
-          state.ingredients[choseLastBunInd].count = 0;
-          state.ingredients[index].count = 1;
-        }
-        //  если ничего не выбрано из булок воощбе -  то просто добавляем булку
-        else state.ingredients[index].count = 1;
+        // если кликнули по той же булке, ничего не делаем
+        if (currentBunIndex === index) return;
+        // сбрасываем count у всех булок
+        state.ingredients = state.ingredients.map((ing) => {
+          if (ing.type === 'bun') ing.count = 0;
+          return ing;
+        });
+        // ставим count = 1 для выбранной булки
+        state.ingredients[index].count = 1;
       } else {
         // Условие если ингридиент не булка
         // решаем ...либо вычитание либо сложение
