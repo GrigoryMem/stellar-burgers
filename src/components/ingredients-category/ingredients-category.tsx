@@ -16,8 +16,6 @@ export const IngredientsCategory = forwardRef<
     (ing: TIngredient) => ing.type !== 'bun'
   );
 
-  console.log('до функции др ингридиенты', otherAddIng);
-  console.log('до функции булка', bun);
   const burgerConstructor = {
     bun: {
       _id: bun?._id || ''
@@ -34,7 +32,7 @@ export const IngredientsCategory = forwardRef<
     if (bun) counters[bun._id] = 1; //изменили с 2
     return counters;
   }, [burgerConstructor]);
-  console.log('преобр', ingredientsCounters);
+
   return (
     <IngredientsCategoryUI
       title={title}

@@ -19,11 +19,9 @@ export const BurgerConstructor: FC = () => {
     saucesArr: addedSaucesArr
   } = filterIngredients(addedIngredients);
   //  либо с клика либо с всех загруженых ингридиентов либо  дефолт
-  const bunData = addedBunArr[0] ?? defaultBun[0];
+  const bunData = addedBunArr[0] || defaultBun[0] || null;
   const constructorItems = {
-    bun: {
-      ...bunData
-    },
+    bun: bunData,
     ingredients: [...addedMainsArr, ...addedSaucesArr]
   };
 
@@ -36,16 +34,14 @@ export const BurgerConstructor: FC = () => {
   };
   const closeOrderModal = () => {};
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient | TIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
-
+  const price = useMemo(() => {
+    // если нет булки то цена 0 - подстраховка
+    if (!constructorItems.bun) return 0;
+    return (
+      constructorItems.bun.price * 2 +
+      constructorItems.ingredients.reduce((s, v) => s + (v?.price || 0), 0)
+    );
+  }, [constructorItems]);
   // return null;
 
   return (
