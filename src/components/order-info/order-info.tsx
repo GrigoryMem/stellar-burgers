@@ -1,22 +1,48 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch, AppDispatch } from '../../services/store';
+import {
+  foundOrderSelector,
+  getOrderByNumber
+} from '../../services/slices/orders/orderSlice';
+import {
+  ingredientsSelector,
+  getIngredients
+} from '../../services/slices/ingredients/ingredientSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
+  //  получаем номер заказа
+  const { number: orderNumber } = useParams();
+
+  const dispatch: AppDispatch = useDispatch();
+  const gettingOrder = useSelector(foundOrderSelector);
+
+  useEffect(() => {
+    if (!orderNumber) return;
+    //  загржуаем заказ если есть его номер
+    dispatch(getOrderByNumber(Number(orderNumber)));
+  }, [orderNumber, dispatch]);
   const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
+    createdAt: gettingOrder?.createdAt || 'string',
+    ingredients: gettingOrder?.ingredients || [],
+    _id: gettingOrder?._id || 'string',
+    status: gettingOrder?.status || 'string',
+    name: gettingOrder?.name || 'string',
+    updatedAt: gettingOrder?.updatedAt || 'string',
+    number: gettingOrder?.number || 0
   };
 
-  const ingredients: TIngredient[] = [];
-
+  const ingredients: TIngredient[] = useSelector(ingredientsSelector);
+  //  загружаем ингредиенты в стор если они еще не загружены
+  useEffect(() => {
+    if (ingredients.length === 0) {
+      dispatch(getIngredients());
+    }
+  }, [dispatch, ingredients]);
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;

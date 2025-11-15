@@ -8,7 +8,7 @@ type TOrderState = {
   currentCreatedOrder: TNewOrderResponse | null;
   loading: boolean;
   error: string | null;
-  foundOrder: TOrder | null | TReadyOrder;
+  foundOrder: TOrder | null | TOrder;
 };
 
 type TOperationOrder = {
@@ -87,4 +87,6 @@ export const selectorCurCreatedOrder = (state: RootState) =>
   state.newOrder.currentCreatedOrder?.order;
 export const loadingSelectorOrder = (state: RootState) =>
   state.newOrder.loading;
+export const foundOrderSelector = (state: RootState) =>
+  state.newOrder.foundOrder;
 export default orderSlice.reducer;
