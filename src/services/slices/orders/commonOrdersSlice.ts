@@ -127,4 +127,6 @@ export const feedOrdersSelector = (state: RootState) =>
   state.allOrders.feedOrders.ordersFeed;
 export const userOrdersSelector = (state: RootState) =>
   state.allOrders.userOrders.ordersHistory;
+export const isLoadingSelector = (state: RootState) =>
+  state.allOrders.feedOrders.loading;
 export default feedOrdersSlice.reducer;
