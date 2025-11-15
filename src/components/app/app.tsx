@@ -28,11 +28,9 @@ const App = () => {
       <AppHeader />
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/feed' element={<Feed />}>
-          {/* !!!! */}
-          {/* <Route path='/feed/:number' element={<OrderInfo />} /> */}
-          {/* !!!! */}
-        </Route>
+        <Route path='/feed' element={<Feed />} />
+        {/* делаем отдельный маршрут  для выбранного заказа чтобы прямой переход сработал */}
+        <Route path='/feed/:number' element={<OrderInfo />} />
         <Route
           path='/login'
           element={

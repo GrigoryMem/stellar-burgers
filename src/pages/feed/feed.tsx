@@ -7,6 +7,7 @@ import { feedOrdersSelector } from '../../services/slices/orders/commonOrdersSli
 import { getOrdersWithInfo } from '../../services/slices/orders/getInfoOrders';
 import { getFeedOrdersThunk } from '../../services/slices/orders/commonOrdersSlice';
 import { isLoadingSelector } from '../../services/slices/orders/commonOrdersSlice';
+import { Outlet } from 'react-router-dom';
 
 export const Feed: FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,12 +23,16 @@ export const Feed: FC = () => {
     return <Preloader />;
   } else {
     return (
-      <FeedUI
-        orders={orders}
-        handleGetFeeds={() => {
-          dispatch(getFeedOrdersThunk());
-        }}
-      />
+      <>
+        <FeedUI
+          orders={orders}
+          handleGetFeeds={() => {
+            dispatch(getFeedOrdersThunk());
+          }}
+        />
+        {/* рендерим дочерний элемент */}
+        {/* <Outlet /> */}
+      </>
     );
   }
 };
