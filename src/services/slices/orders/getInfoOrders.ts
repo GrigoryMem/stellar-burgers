@@ -20,8 +20,12 @@ export const getOrdersWithInfo =
     //  делаем запрос о получении ингридиентов
     await dispatch(getIngredients()); // ждем пока все ингридиенты загрузится(это промис)
     //  делаем запросы о получении заказов истории и ленты и ждем выполнения промисов
-    if (typeThunk === 'feed') await dispatch(getFeedOrdersThunk());
-    if (typeThunk === 'history') await dispatch(getUserOrdersThunk());
+    if (typeThunk === 'feed') {
+      await dispatch(getFeedOrdersThunk());
+    }
+    if (typeThunk === 'history') {
+      await dispatch(getUserOrdersThunk());
+    }
     // теперь можем работать с актуальным состояние данных
     // все ингридиенты теперь доступны в хранилище
     const allIngedients = getState().ingredients.ingredients;
