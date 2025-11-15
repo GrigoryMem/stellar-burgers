@@ -85,4 +85,6 @@ const orderSlice = createSlice({
 export const { setCurrentOrder } = orderSlice.actions;
 export const selectorNewOrder = (state: RootState) =>
   state.newOrder.currentCreateOrder;
+export const loadingSelectorOrder = (state: RootState) =>
+  state.newOrder.loading;
 export default orderSlice.reducer;
