@@ -6,7 +6,7 @@ import { getIngredients } from '../ingredients/ingredientSlice';
 import { RootState } from 'src/services/store';
 
 type updateOrders = {
-  orders: TReadyOrder[];
+  orders: TOrder[];
   typeOrders: 'feed' | 'history';
 };
 
@@ -16,19 +16,19 @@ type TMainOptions = {
 };
 //  лента всех заказов
 type TFeedState = TMainOptions & {
-  ordersFeed: TOrder[] | TReadyOrder[];
+  ordersFeed: TOrder[];
   total: number;
   totalToday: number;
 };
 //  история заказов авториз пользователя
 type TUserOrdersState = TMainOptions & {
-  ordersHistory: TOrder[] | TReadyOrder[];
+  ordersHistory: TOrder[];
 };
 
 type CommonOrdersState = {
   feedOrders: TFeedState;
   userOrders: TUserOrdersState;
-  selectOrder: TReadyOrder | null;
+  selectOrder: TOrder[] | null;
 };
 
 const initialState: CommonOrdersState = {
@@ -78,7 +78,7 @@ const feedOrdersSlice = createSlice({
   initialState,
   reducers: {
     //  для модалки
-    setSelectOrder(state, action: PayloadAction<TReadyOrder>) {
+    setSelectOrder(state, action: PayloadAction<TOrder[]>) {
       state.selectOrder = action.payload;
     },
     // синхронное обновление полей заказов - форматируем заказы как нам надо

@@ -1,5 +1,6 @@
 import { FC } from 'react';
-
+import { useSelector } from '../../services/store';
+import { feedOrdersSelector } from '../../services/slices/orders/commonOrdersSlice';
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 
