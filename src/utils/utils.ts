@@ -89,7 +89,7 @@ export function getFullOrdersIngs(
   return fullUserOrderIngredients;
 }
 
-// преобразование времени  - разобраться как работает
+// преобразование времени в нужный формат
 export const formatDateOrder = (isoString: string): string => {
   const date = new Date(isoString);
 
