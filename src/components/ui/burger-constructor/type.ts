@@ -6,7 +6,7 @@ export type BurgerConstructorUIProps = {
   orderRequest: boolean;
   price: number;
   // orderModalData: TOrder | null;
-  orderModalData: TNewOrderResponse | null;
+  orderModalData: { number: number } | null;
   onOrderClick: () => void;
   closeOrderModal: () => void;
   disabled?: boolean;
