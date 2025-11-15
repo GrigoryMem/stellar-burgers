@@ -83,9 +83,9 @@ const feedOrdersSlice = createSlice({
     // синхронное обновление полей заказов - форматируем заказы как нам надо
     setOrders(state, action: PayloadAction<updateOrders>) {
       if (action.payload.typeOrders === 'feed') {
-        state.feedOrders.ordersFeed = action.payload.orders
+        state.feedOrders.ordersFeed = action.payload.orders;
       } else {
-        state.userOrders.ordersHistory = action.payload.orders
+        state.userOrders.ordersHistory = action.payload.orders;
       }
     }
   },
