@@ -12,7 +12,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch: AppDispatch = useDispatch();
     // ingredient.
     const handleAdd = () => {
-      console.log(ingredient);
+      // добавим элемент в корзнину
       dispatch(
         updateBurgConstrIngreds({ _id: ingredient._id, type: 'increment' })
       );

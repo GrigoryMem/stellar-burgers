@@ -19,12 +19,14 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
 const App = () => {
   const location = useLocation();
+  const backgroundLocation = location.state?.background;
+  console.log(location);
   const navigate = useNavigate();
   const goBack = useGoBack();
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
@@ -86,14 +88,6 @@ const App = () => {
           }
         />
         <Route
-          path='/ingredients/:id'
-          element={
-            <Modal onClose={goBack} title='Ингридиент подробно'>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
@@ -101,6 +95,16 @@ const App = () => {
                 <OrderInfo />
               </Modal>
             </ProtectedRoute>
+          }
+        />
+      </Routes>
+      <Routes>
+        <Route
+          path='/ingredients/:id'
+          element={
+            <Modal onClose={goBack} title='Ингридиент подробно'>
+              <IngredientDetails />
+            </Modal>
           }
         />
       </Routes>
