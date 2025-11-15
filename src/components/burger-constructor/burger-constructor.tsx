@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
@@ -14,6 +14,7 @@ export const BurgerConstructor: FC = () => {
   const allIngedients = useSelector(ingredientsSelector);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   const addedIngredients = useSelector(dividedIngrtsSelector);
+
   //  что добавлено в корзину конструктора
   const {
     bunsArr: addedBunArr,
@@ -26,6 +27,10 @@ export const BurgerConstructor: FC = () => {
     bun: bunData,
     ingredients: [...addedMainsArr, ...addedSaucesArr]
   };
+  let disabledButton = useMemo(
+    () => addedMainsArr.length === 0 && addedSaucesArr.length === 0,
+    [addedMainsArr, addedSaucesArr]
+  );
 
   const orderRequest = false;
 
@@ -33,6 +38,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    //  оформляем заказ
     dispatch(createOrder());
   };
   const closeOrderModal = () => {};
@@ -55,6 +61,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      disabled={disabledButton}
     />
   );
 };
