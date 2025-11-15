@@ -28,8 +28,8 @@
 }
 /* мой стиль */
 button[disabled] {
-  opacity: 0.45 !important;
+  opacity: 0.5;
   filter: grayscale(0.3);
-  cursor: not-allowed !important;
-  pointer-events: none; /* чтобы точно никуда не нажали */
+   cursor: not-allowed !important;
+  pointer-events: none;
 }

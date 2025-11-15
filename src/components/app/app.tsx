@@ -20,7 +20,7 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 const App = () => {
   const location = useLocation();
   const backgroundLocation = location.state?.background;
-  console.log(location);
+  // console.log(location);
   const navigate = useNavigate();
   const goBack = useGoBack();
   return (

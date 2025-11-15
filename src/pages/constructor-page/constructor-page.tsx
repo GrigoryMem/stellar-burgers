@@ -17,7 +17,7 @@ export const ConstructorPage: FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    // загружаем ингридиенты в гаш стор
+    // загружаем ингридиенты в наш стор
     dispatch(getIngredients());
   }, []);
   return (
