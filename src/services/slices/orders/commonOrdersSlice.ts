@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TFullOrder, TOrder, TReadyOrder } from '@utils-types';
 import { ApiClients } from '../../../services/extraArg';
 import { getIngredients } from '../ingredients/ingredientSlice';
+import { RootState } from 'src/services/store';
 
 type updateOrders = {
   orders: TReadyOrder[];
@@ -122,4 +123,8 @@ const feedOrdersSlice = createSlice({
   }
 });
 export const { setSelectOrder, setOrders } = feedOrdersSlice.actions;
+export const feedOrdersSelector = (state: RootState) =>
+  state.allOrders.feedOrders.ordersFeed;
+export const userOrdersSelector = (state: RootState) =>
+  state.allOrders.userOrders.ordersHistory;
 export default feedOrdersSlice.reducer;
