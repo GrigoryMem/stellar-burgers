@@ -10,8 +10,10 @@ import { createOrder } from '../../services/slices/constructorBurger/createOrder
 import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
 import {
   loadingSelectorOrder as loading,
-  selectorCurCreatedOrder as newOrder
+  selectorCurCreatedOrder as newOrder,
+  setCurrentOrder
 } from '../../services/slices/orders/orderSlice';
+import { useGoBack } from '../../utils/hooks';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -20,10 +22,16 @@ export const BurgerConstructor: FC = () => {
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   //  то что добавляю
   const addedIngredients = useSelector(dividedIngrtsSelector);
-
+  const dataNewOrder = useSelector(newOrder);
+  //  что добавлено в корзину конструктора
+  const {
+    bunsArr: addedBunArr,
+    mainsArr: addedMainsArr,
+    saucesArr: addedSaucesArr
+  } = filterIngredients(addedIngredients);
   //  устанавливаем булку по ум в хранилище
   useEffect(() => {
-    if (defaultBun.length) {
+    if (defaultBun.length > 0) {
       const actionType = {
         type: 'increment' as const,
         _id: defaultBun[0]._id
@@ -31,12 +39,7 @@ export const BurgerConstructor: FC = () => {
       dispatch(updateBurgConstrIngreds(actionType));
     }
   }, []);
-  //  что добавлено в корзину конструктора
-  const {
-    bunsArr: addedBunArr,
-    mainsArr: addedMainsArr,
-    saucesArr: addedSaucesArr
-  } = filterIngredients(addedIngredients);
+
   //  либо с клика либо с всех загруженых ингридиентов либо  дефолт
   const bunData = addedBunArr[0] || defaultBun[0] || null;
   const constructorItems = {
@@ -50,14 +53,17 @@ export const BurgerConstructor: FC = () => {
 
   const orderRequest = useSelector(loading);
 
-  const orderModalData = newOrder;
-
+  const orderModalData = dataNewOrder || null;
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
     //  оформляем заказ
     dispatch(createOrder());
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    //  очистка хранилища по текущему новому заказу
+    dispatch(setCurrentOrder({ show: false, order: null }));
+    //  закртываем модалку => см в APP
+  };
 
   const price = useMemo(() => {
     // если нет булки то цена 0 - подстраховка
