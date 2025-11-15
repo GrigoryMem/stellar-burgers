@@ -9,6 +9,12 @@ import { divideIngridientsById } from '../../../utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 import { RootState } from 'src/services/store';
 
+// парметры замены элементов
+type TReplacer = {
+  from: number;
+  to: number;
+};
+
 type TBurgConstrState = {
   addedIngredients: TIngredient[];
   dividedIngwithId: TConstructorIngredient[];
@@ -49,6 +55,18 @@ const burgConstrSlice = createSlice({
     setTotalSum: (state, action: PayloadAction<number>) => {
       state.totalSum = action.payload;
     },
+    //  меняем порядок элементов в массиве добавленных ингредиентов
+    replaceTwoElements: (state, action: PayloadAction<TReplacer>) => {
+      const { from, to } = action.payload;
+      if (from === to || !state.dividedIngwithId[to]) {
+        return;
+      }
+      const temp = state.dividedIngwithId[from];
+      const next = state.dividedIngwithId[to];
+      //  меняем местами предыдущий и следующий
+      state.dividedIngwithId[from] = next;
+      state.dividedIngwithId[to] = temp;
+    },
     //  очистим корзину конструктора - => напр если промис будет успешным
     clearConstructor: (state) => {
       state.addedIngredients = [];
@@ -74,3 +92,4 @@ export const dividedIngrtsSelector = (state: RootState) =>
   state.constructorBurgers.dividedIngwithId;
 export const totalSumSelector = (state: RootState) =>
   state.constructorBurgers.totalSum;
+export const { replaceTwoElements } = burgConstrSlice.actions;

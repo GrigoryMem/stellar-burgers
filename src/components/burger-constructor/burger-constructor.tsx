@@ -14,6 +14,7 @@ export const BurgerConstructor: FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const allIngedients = useSelector(ingredientsSelector);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
+  //  то что добавляю
   const addedIngredients = useSelector(dividedIngrtsSelector);
 
   //  устанавливаем булку по ум в хранилище
