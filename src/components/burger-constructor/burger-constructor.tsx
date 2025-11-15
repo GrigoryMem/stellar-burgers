@@ -7,6 +7,7 @@ import { filterIngredients } from '../../utils/utils';
 import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
 import { createOrder } from '../../services/slices/constructorBurger/createOrder';
+import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -15,6 +16,16 @@ export const BurgerConstructor: FC = () => {
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   const addedIngredients = useSelector(dividedIngrtsSelector);
 
+  //  устанавливаем булку по ум в хранилище
+  useEffect(() => {
+    if (defaultBun.length) {
+      const actionType = {
+        type: 'increment' as const,
+        _id: defaultBun[0]._id
+      };
+      dispatch(updateBurgConstrIngreds(actionType));
+    }
+  }, []);
   //  что добавлено в корзину конструктора
   const {
     bunsArr: addedBunArr,
