@@ -5,7 +5,7 @@ import { getOrderByNumberApi, TNewOrderResponse, TOrdersResponse } from '@api';
 import { RootState } from '../../store';
 //  для модального окна
 type TOrderState = {
-  currentCreateOrder: TNewOrderResponse | null;
+  currentCreatedOrder: TNewOrderResponse | null;
   loading: boolean;
   error: string | null;
   foundOrder: TOrder | null | TReadyOrder;
@@ -17,7 +17,7 @@ type TOperationOrder = {
 };
 
 const initialState: TOrderState = {
-  currentCreateOrder: null,
+  currentCreatedOrder: null,
   loading: false,
   error: null,
   foundOrder: null
@@ -38,9 +38,9 @@ const orderSlice = createSlice({
     //  для очистки поля currentOrder
     setCurrentOrder(state, action: PayloadAction<TOperationOrder>) {
       if (!action.payload.show) {
-        state.currentCreateOrder = null;
+        state.currentCreatedOrder = null;
       } else {
-        state.currentCreateOrder = action.payload.order as TNewOrderResponse;
+        state.currentCreatedOrder = action.payload.order as TNewOrderResponse;
       }
     }
   },
@@ -59,7 +59,7 @@ const orderSlice = createSlice({
         createOrder.fulfilled,
         (state, action: PayloadAction<TNewOrderResponse>) => {
           state.loading = false;
-          state.currentCreateOrder = action.payload;
+          state.currentCreatedOrder = action.payload;
         }
       )
       //  по номеру получим заказ
@@ -83,8 +83,8 @@ const orderSlice = createSlice({
 });
 
 export const { setCurrentOrder } = orderSlice.actions;
-export const selectorNewOrder = (state: RootState) =>
-  state.newOrder.currentCreateOrder;
+export const selectorCurCreatedOrder = (state: RootState) =>
+  state.newOrder.currentCreatedOrder?.order;
 export const loadingSelectorOrder = (state: RootState) =>
   state.newOrder.loading;
 export default orderSlice.reducer;

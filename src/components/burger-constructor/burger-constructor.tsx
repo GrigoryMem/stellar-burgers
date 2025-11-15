@@ -8,7 +8,10 @@ import { ConstructorElement } from '@zlden/react-developer-burger-ui-components'
 import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
 import { createOrder } from '../../services/slices/constructorBurger/createOrder';
 import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
-import { loadingSelectorOrder as loading } from '../../services/slices/orders/orderSlice';
+import {
+  loadingSelectorOrder as loading,
+  selectorCurCreatedOrder as newOrder
+} from '../../services/slices/orders/orderSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -47,7 +50,7 @@ export const BurgerConstructor: FC = () => {
 
   const orderRequest = useSelector(loading);
 
-  const orderModalData = null;
+  const orderModalData = newOrder;
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
