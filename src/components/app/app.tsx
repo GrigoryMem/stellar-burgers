@@ -79,35 +79,37 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
         {/* модалки */}
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal onClose={goBack} title='Заказ ленты подробно'>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <ProtectedRoute>
-              <Modal onClose={goBack} title='Ваш заказ подробно'>
+      </Routes>
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal onClose={goBack} title='Ингридиент подробно'>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal onClose={goBack} title='Заказ ленты подробно'>
                 <OrderInfo />
               </Modal>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-      <Routes>
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal onClose={goBack} title='Ингридиент подробно'>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-      </Routes>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <Modal onClose={goBack} title='Ваш заказ подробно'>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };
