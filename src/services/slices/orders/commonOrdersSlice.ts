@@ -19,6 +19,7 @@ type TFeedState = TMainOptions & {
   ordersFeed: TOrder[];
   total: number;
   totalToday: number;
+  initialLoadCompleted: boolean;
 };
 //  история заказов авториз пользователя
 type TUserOrdersState = TMainOptions & {
@@ -37,7 +38,8 @@ const initialState: CommonOrdersState = {
     error: null,
     ordersFeed: [],
     total: 0,
-    totalToday: 0
+    totalToday: 0,
+    initialLoadCompleted: false
   },
   userOrders: {
     loading: false,
@@ -92,6 +94,7 @@ const feedOrdersSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      // лента
       .addCase(getFeedOrdersThunk.pending, (state) => {
         state.feedOrders.loading = true;
         state.feedOrders.error = null;
@@ -106,7 +109,10 @@ const feedOrdersSlice = createSlice({
         state.feedOrders.ordersFeed = action.payload.orders;
         state.feedOrders.total = action.payload.total;
         state.feedOrders.totalToday = action.payload.totalToday;
+        state.feedOrders.initialLoadCompleted = true; // уведомляем о первой загрузке ленты
+        // (нужно чтобы прелоадер не загружался каждый раз при отправке запроса)
       })
+      // история пользователя
       .addCase(getUserOrdersThunk.pending, (state) => {
         state.userOrders.loading = true;
         state.userOrders.error = null;
@@ -130,3 +136,5 @@ export const userOrdersSelector = (state: RootState) =>
 export const isLoadingSelector = (state: RootState) =>
   state.allOrders.feedOrders.loading;
 export default feedOrdersSlice.reducer;
+export const initialLoadCompletedSelector = (state: RootState) =>
+  state.allOrders.feedOrders.initialLoadCompleted;
