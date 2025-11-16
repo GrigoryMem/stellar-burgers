@@ -6,11 +6,12 @@ import {
   logoutApi,
   registerUserApi,
   resetPasswordApi,
-  TRegisterData
+  TRegisterData,
+  updateUserApi
 } from '../../../../utils/burger-api';
 import { clearUser, TLoginData } from '../userSlice';
 import { deleteCookie, setCookie } from '../../../../utils/cookie';
-import { TUser } from '@utils-types';
+import { TErrorResp, TUser } from '@utils-types';
 
 export const userActions = {
   registr: 'user/registr',
@@ -103,7 +104,7 @@ export const resetPassword = createAsyncThunk(
 );
 
 // авторизация по токену доступа
-
+//  получаем данные пользователя
 export const checkAuthWithToken = createAsyncThunk(
   userActions.checkAuthAccessToken,
   async (_, thunkApi) => {
@@ -111,8 +112,11 @@ export const checkAuthWithToken = createAsyncThunk(
       const data = await getUserApi(); // вернём объект { success, user }
       // вернем данные пользователя
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Ошибка авторизации: ${error}`);
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
+      return thunkApi.rejectWithValue(
+        `Ошибка получения данных: ${textError}` || 'Неизвестная ошибка'
+      );
     }
   }
 );
@@ -122,11 +126,14 @@ export const updateUserData = createAsyncThunk(
   userActions.updateUser,
   async (user: Partial<TRegisterData>, thunkApi) => {
     try {
-      const data = await getUserApi(); // вернём объект { success, user }
+      const data = await updateUserApi(user); // вернём объект { success, user }
       // вернем данные пользователя
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Ошибка обновления данных: ${error}`);
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
+      return thunkApi.rejectWithValue(
+        `Ошибка обновления данных: ${textError}` || 'Неизвестная ошибка'
+      );
     }
   }
 );

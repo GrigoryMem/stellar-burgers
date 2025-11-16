@@ -44,6 +44,7 @@ export type TOrdersData = {
 export type TUser = {
   email: string;
   name: string;
+  password: string;
 };
 // тип вкладок
 // 'bun' — булки,
@@ -52,3 +53,8 @@ export type TUser = {
 
 // 'main' — начинки (основные ингредиенты).
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+export type TErrorResp = {
+  success: boolean;
+  message: string;
+};

@@ -10,6 +10,7 @@ import {
   updateUserData
 } from './actionsApi/thunks';
 import { TUser } from '@utils-types';
+import { RootState } from 'src/services/store';
 // хранимые поля
 
 export type TLoginData = Omit<TRegisterData, 'name'>;
@@ -31,7 +32,11 @@ export type TFieldType<T> = {
 
 // 2. Начальное состояние
 const initialState: AuthState = {
-  user: null,
+  user: {
+    name: '',
+    email: '',
+    password: ''
+  },
   isLoading: false,
   error: null,
   isAuthenticated: false,
@@ -43,6 +48,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    //  очистка данных
     clearUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -50,6 +56,16 @@ const userSlice = createSlice({
       state.customResetMessage = null;
       state.isLoading = false;
       state.error = null;
+    },
+    setValuesUserData: (
+      state,
+      action: PayloadAction<Partial<TRegisterData>>
+    ) => {
+      if (!state.user) return; //например если пользователь не залогинен
+      state.user = {
+        ...state.user,
+        ...action.payload
+      };
     }
   },
   extraReducers: (builder) => {
@@ -172,5 +188,6 @@ const userSlice = createSlice({
       });
   }
 });
-export const { clearUser } = userSlice.actions;
+export const { clearUser, setValuesUserData } = userSlice.actions;
+export const userDataSelector = (state: RootState) => state.user.user;
 export default userSlice.reducer;
