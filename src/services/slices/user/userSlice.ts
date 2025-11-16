@@ -191,3 +191,4 @@ const userSlice = createSlice({
 export const { clearUser, setValuesUserData } = userSlice.actions;
 export const userDataSelector = (state: RootState) => state.user.user;
 export default userSlice.reducer;
+export const isLoadingUserSelector = (state: RootState) => state.user.isLoading;

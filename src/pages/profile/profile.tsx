@@ -9,9 +9,12 @@ import {
   checkAuthWithToken,
   updateUserData
 } from '../../services/slices/user/actionsApi/thunks';
+import { isLoadingUserSelector } from '../../services/slices/user/userSlice';
+import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
+  const isLoading = useSelector(isLoadingUserSelector);
   const userData = useSelector(userDataSelector);
   const user = {
     name: userData?.name || '',
@@ -68,6 +71,10 @@ export const Profile: FC = () => {
     }));
   };
 
+  if (isLoading) {
+    return <Preloader />;
+  }
+
   return (
     <ProfileUI
       formValue={formValue}
@@ -77,6 +84,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };
