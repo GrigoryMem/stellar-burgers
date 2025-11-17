@@ -15,11 +15,13 @@ import {
 } from '../../services/slices/orders/orderSlice';
 import { useGoBack } from '../../utils/hooks';
 import { isAuthenticated } from '../../services/slices/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const dispatch: AppDispatch = useDispatch();
   const allIngedients = useSelector(ingredientsSelector);
+  const navigate = useNavigate();
   //  провера состояния авторизации
   const checkAuth = useSelector(isAuthenticated);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
@@ -51,10 +53,8 @@ export const BurgerConstructor: FC = () => {
   };
 
   let lockBtnStatus = useMemo(() => {
-    if (
-      !checkAuth ||
-      (addedMainsArr.length === 0 && addedSaucesArr.length === 0)
-    ) {
+    //  если пользователь ничего не выбрал
+    if (addedMainsArr.length === 0 && addedSaucesArr.length === 0) {
       //  ставим блок
       return true;
     } else {
@@ -68,8 +68,12 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = dataNewOrder || null;
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
-    //  оформляем заказ
-    dispatch(createOrder());
+    if (!checkAuth) {
+      navigate('/login');
+    }
+    if (checkAuth) {
+      dispatch(createOrder());
+    }
   };
   const closeOrderModal = () => {
     //  очистка хранилища по текущему новому заказу
