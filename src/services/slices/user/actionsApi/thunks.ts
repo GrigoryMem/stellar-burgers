@@ -91,11 +91,12 @@ export const resetPassword = createAsyncThunk(
     try {
       const res = await resetPasswordApi(data);
       return res;
-    } catch (error) {
-      // чтобы иметь чёткий текст ошибки для UI.
-      // rejectWithValue позволяет передать свой payload для ошибки,
-      // который потом будет доступен в редьюсере через action.payload.
-      return thunkApi.rejectWithValue(`Ошибка сброса пароля: ${error}`);
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
+      return thunkApi.rejectWithValue(
+        `Ошибка сброса пароля пользователя: ${textError}` ||
+          'Неизвестная ошибка'
+      );
     }
   }
 );

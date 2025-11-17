@@ -21,7 +21,9 @@ export const ForgotPassword: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    setError(null);
     // unwrap() позволяет получить реальный результат из Promise, который возвращает асинхронная операция, вместо объекта с промисом.
+    //  для отражения состояния в сторе - нам нужна ошибка или ззагрузк
     dispatch(forgotPassword({ email }))
       .unwrap() // получаем реальный промис из thunk
       .then(() => {
