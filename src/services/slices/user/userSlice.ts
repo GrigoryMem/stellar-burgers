@@ -192,3 +192,4 @@ export const isAuthCheckedSelector = (state: RootState) =>
   state.user.isAuthChecked;
 export const isUserSelector = (state: RootState) => state.user.user;
 export const isErrorUserSelector = (state: RootState) => state.user.error;
+export const isAuthenticated = (state: RootState) => state.user.isAuthenticated;

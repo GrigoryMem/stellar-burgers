@@ -9,32 +9,39 @@ import {
   checkAuthWithToken,
   updateUserData
 } from '../../services/slices/user/actionsApi/thunks';
-import { isLoadingUserSelector } from '../../services/slices/user/userSlice';
+import {
+  isLoadingUserSelector,
+  isAuthenticated
+} from '../../services/slices/user/userSlice';
 import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
+  const authenticated = useSelector(isAuthenticated);
   const isLoading = useSelector(isLoadingUserSelector);
   const userData = useSelector(userDataSelector);
-  const user = {
-    name: userData?.name || '',
-    email: userData?.email || ''
-  };
+  // const user = {
+  //   name: userData?.name || '',
+  //   email: userData?.email || ''
+  // };
   const dispatch: AppDispatch = useDispatch();
   // Инициализируем локальное состояние формы данными из стора
+  // когда данные пользователя уже пришли.- запишем их в фомру
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: '',
+    email: '',
     password: ''
   });
   // Используем этот эффект для синхронизации локального состояния
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
+    if (!userData) return; // ждём userData
+    // когда данные пришли встор при монтировании запишем их в полянашей формы
+    setFormValue((prev) => ({
+      name: prev.name || userData.name,
+      email: prev.email || userData.email,
+      password: prev.password || ''
     }));
-  }, [user.name, user.email]);
+  }, [userData]);
 
   // получаем  данные пользователя при загр  если пользователь авторизован
   useEffect(() => {
@@ -43,10 +50,8 @@ export const Profile: FC = () => {
   }, [dispatch]);
   //  сравниваем локальное состояние формы(что сейчас ввели) с данными из стора
   const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
-
+    formValue.name !== userData?.name || formValue.email !== userData?.email;
+  console.log(isFormChanged);
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     // отправляем данные из ЛОКАЛЬНОГО СОСТОЯНИЯ ФОРМЫ на сервер
@@ -57,8 +62,8 @@ export const Profile: FC = () => {
     e.preventDefault();
     // Сбрасываем локальное состояние формы к текущим значениям из стора
     setFormValue({
-      name: user.name,
-      email: user.email,
+      name: userData?.name as string,
+      email: userData?.email as string,
       // очистка пароля
       password: ''
     });
