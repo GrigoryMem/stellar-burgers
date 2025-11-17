@@ -149,8 +149,11 @@ export const logoutUser = createAsyncThunk(
       thunkApi.dispatch(clearUser());
       // вернем данные выхода из системы
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Ошибка выхода из системы: ${error}`);
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
+      return thunkApi.rejectWithValue(
+        `Ошибка выхода из системы: ${textError}` || 'Неизвестная ошибка'
+      );
     }
   }
 );
