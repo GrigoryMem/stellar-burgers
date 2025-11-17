@@ -14,11 +14,14 @@ import {
   setCurrentOrder
 } from '../../services/slices/orders/orderSlice';
 import { useGoBack } from '../../utils/hooks';
+import { isAuthenticated } from '../../services/slices/user/userSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const dispatch: AppDispatch = useDispatch();
   const allIngedients = useSelector(ingredientsSelector);
+  //  провера состояния авторизации
+  const checkAuth = useSelector(isAuthenticated);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   //  то что добавляю
   const addedIngredients = useSelector(dividedIngrtsSelector);
@@ -46,10 +49,19 @@ export const BurgerConstructor: FC = () => {
     bun: bunData,
     ingredients: [...addedMainsArr, ...addedSaucesArr]
   };
-  let disabledButton = useMemo(
-    () => addedMainsArr.length === 0 && addedSaucesArr.length === 0,
-    [addedMainsArr, addedSaucesArr]
-  );
+
+  let lockBtnStatus = useMemo(() => {
+    if (
+      !checkAuth ||
+      (addedMainsArr.length === 0 && addedSaucesArr.length === 0)
+    ) {
+      //  ставим блок
+      return true;
+    } else {
+      //  снимаем блок
+      return false;
+    }
+  }, [addedMainsArr, addedSaucesArr, checkAuth]);
   const goBack = useGoBack();
   const orderRequest = useSelector(loading);
 
@@ -84,7 +96,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
-      disabled={disabledButton}
+      disabled={lockBtnStatus}
     />
   );
 };
