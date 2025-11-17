@@ -56,11 +56,11 @@ export const loginUser = createAsyncThunk(
       // установка основного токена в куки бразуером
       setCookie('accessToken', data.accessToken);
       return data;
-    } catch (error) {
-      // чтобы иметь чёткий текст ошибки для UI.
-      // rejectWithValue позволяет передать свой payload для ошибки,
-      // который потом будет доступен в редьюсере через action.payload.
-      return thunkApi.rejectWithValue(`Ошибка входа пользователя: ${error}`);
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
+      return thunkApi.rejectWithValue(
+        `Ошибка входа пользователя: ${textError}` || 'Неизвестная ошибка'
+      );
     }
   }
 );
