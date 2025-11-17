@@ -69,16 +69,15 @@ export const loginUser = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
   userActions.forgot,
-  async (email: string, thunkApi) => {
+  async ({ email }: { email: string }, thunkApi) => {
     try {
       const data = await forgotPasswordApi({ email });
       return data;
-    } catch (error) {
-      // чтобы иметь чёткий текст ошибки для UI.
-      // rejectWithValue позволяет передать свой payload для ошибки,
-      // который потом будет доступен в редьюсере через action.payload.
+    } catch (error: TErrorResp | unknown) {
+      const textError = (error as TErrorResp).message;
       return thunkApi.rejectWithValue(
-        `Ошибка "забыли пароль" пользователя: ${error}`
+        `Ошибка ввода забыли пароль пользователя: ${textError}` ||
+          'Неизвестная ошибка'
       );
     }
   }
