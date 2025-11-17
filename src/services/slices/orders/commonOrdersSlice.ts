@@ -1,9 +1,9 @@
 import { getFeedsApi, TFeedsResponse, TOrdersResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TFullOrder, TOrder, TReadyOrder } from '@utils-types';
+import { TErrorResp, TFullOrder, TOrder, TReadyOrder } from '@utils-types';
 import { ApiClients } from '../../../services/extraArg';
 import { getIngredients } from '../ingredients/ingredientSlice';
-import { RootState } from 'src/services/store';
+import { RootState } from '../../store';
 
 type updateOrders = {
   orders: TOrder[];
@@ -24,6 +24,7 @@ type TFeedState = TMainOptions & {
 //  история заказов авториз пользователя
 type TUserOrdersState = TMainOptions & {
   ordersHistory: TOrder[];
+  initialLoadOrdersCompleted: boolean;
 };
 
 type CommonOrdersState = {
@@ -44,7 +45,8 @@ const initialState: CommonOrdersState = {
   userOrders: {
     loading: false,
     error: null,
-    ordersHistory: []
+    ordersHistory: [],
+    initialLoadOrdersCompleted: false
   },
   selectOrder: null
 };
@@ -58,20 +60,28 @@ export const getFeedOrdersThunk = createAsyncThunk<
   try {
     const data = await thunkApi.extra.getFeedsApi();
     return data;
-  } catch (err) {
-    return thunkApi.rejectWithValue(`Не загрузились лента заказов: ${err}`);
+  } catch (error: TErrorResp | unknown) {
+    const textError = (error as TErrorResp).message;
+    return thunkApi.rejectWithValue(
+      `Не загрузилась лентк заказов всех пользователей: ${textError}` ||
+        'Неизвестная ошибка'
+    );
   }
 });
 
 export const getUserOrdersThunk = createAsyncThunk<
-  TOrdersResponse,
+  TOrder[],
   void,
   { extra: ApiClients }
 >('orders/getUserOrders', async (_, thunkApi) => {
   try {
-    return await thunkApi.extra.getOrdersApi();
-  } catch (err) {
-    return thunkApi.rejectWithValue(`Не загрузились история заказов: ${err}`);
+    const data = await thunkApi.extra.getOrdersApi();
+    return data;
+  } catch (error: TErrorResp | unknown) {
+    const textError = (error as TErrorResp).message;
+    return thunkApi.rejectWithValue(
+      `Не загрузились заказы пользователя: ${textError}` || 'Неизвестная ошибка'
+    );
   }
 });
 
@@ -124,7 +134,9 @@ const feedOrdersSlice = createSlice({
       })
       .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
         state.userOrders.loading = false;
-        state.userOrders.ordersHistory = action.payload.data;
+        state.userOrders.ordersHistory = action.payload;
+        // первая загрузка отмечаем
+        state.userOrders.initialLoadOrdersCompleted = true;
       });
   }
 });
@@ -138,3 +150,5 @@ export const isLoadingSelector = (state: RootState) =>
 export default feedOrdersSlice.reducer;
 export const initialLoadCompletedSelector = (state: RootState) =>
   state.allOrders.feedOrders.initialLoadCompleted;
+export const isFirstUserOrders = (state: RootState) =>
+  state.allOrders.userOrders.initialLoadOrdersCompleted;

@@ -100,7 +100,7 @@ export const getFeedsApi = () =>
     });
 // получаем историю заказов
 export const getOrdersApi = () =>
-  fetchWithRefresh<TOrdersResponse>(`${URL}/orders`, {
+  fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
     //  !поставил TOrdersResponse вместо TFeedsResponse!
     method: 'GET',
     headers: {
@@ -108,7 +108,8 @@ export const getOrdersApi = () =>
       authorization: getCookie('accessToken')
     } as HeadersInit // говорим TypeScript, что headers точно правильного типа
   }).then((data) => {
-    if (data?.success) return data; // убрал data.orders
+    console.log(data);
+    if (data?.success) return data.orders; // убрал data.orders
     return Promise.reject(data);
   });
 //  удалено тип данных для создания заказа
