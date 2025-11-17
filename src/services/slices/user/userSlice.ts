@@ -32,11 +32,7 @@ export type TFieldType<T> = {
 
 // 2. Начальное состояние
 const initialState: AuthState = {
-  user: {
-    name: '',
-    email: '',
-    password: ''
-  },
+  user: null,
   isLoading: false,
   error: null,
   isAuthenticated: false,
@@ -192,3 +188,6 @@ export const { clearUser, setValuesUserData } = userSlice.actions;
 export const userDataSelector = (state: RootState) => state.user.user;
 export default userSlice.reducer;
 export const isLoadingUserSelector = (state: RootState) => state.user.isLoading;
+export const isAuthCheckedSelector = (state: RootState) =>
+  state.user.isAuthChecked;
+export const isUserSelector = (state: RootState) => state.user.user;
