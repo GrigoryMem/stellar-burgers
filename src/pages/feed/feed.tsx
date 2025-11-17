@@ -37,8 +37,6 @@ export const Feed: FC = () => {
             dispatch(getFeedOrdersThunk());
           }}
         />
-        {/* рендерим дочерний элемент */}
-        {/* <Outlet /> */}
       </>
     );
   }

@@ -50,7 +50,7 @@ export const BurgerConstructor: FC = () => {
     () => addedMainsArr.length === 0 && addedSaucesArr.length === 0,
     [addedMainsArr, addedSaucesArr]
   );
-
+  const goBack = useGoBack();
   const orderRequest = useSelector(loading);
 
   const orderModalData = dataNewOrder || null;
@@ -63,6 +63,7 @@ export const BurgerConstructor: FC = () => {
     //  очистка хранилища по текущему новому заказу
     dispatch(setCurrentOrder({ show: false, order: null }));
     //  закртываем модалку => см в APP
+    goBack();
   };
 
   const price = useMemo(() => {

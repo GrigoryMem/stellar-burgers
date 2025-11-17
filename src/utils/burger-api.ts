@@ -108,7 +108,6 @@ export const getOrdersApi = () =>
       authorization: getCookie('accessToken')
     } as HeadersInit // говорим TypeScript, что headers точно правильного типа
   }).then((data) => {
-    console.log(data);
     if (data?.success) return data.orders; // убрал data.orders
     return Promise.reject(data);
   });
