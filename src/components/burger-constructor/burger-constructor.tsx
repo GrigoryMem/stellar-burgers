@@ -2,7 +2,7 @@ import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
-import { useSelector, useDispatch, AppDispatch } from '../../services/store';
+import { useAppSelector, useAppDispatch } from '../../services/store';
 import { filterIngredients } from '../../utils/utils';
 import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
@@ -19,15 +19,15 @@ import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const dispatch: AppDispatch = useDispatch();
-  const allIngedients = useSelector(ingredientsSelector);
+  const dispatch = useAppDispatch();
+  const allIngedients = useAppSelector(ingredientsSelector);
   const navigate = useNavigate();
   //  провера состояния авторизации
-  const checkAuth = useSelector(isAuthenticated);
+  const checkAuth = useAppSelector(isAuthenticated);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   //  то что добавляю
-  const addedIngredients = useSelector(dividedIngrtsSelector);
-  const dataNewOrder = useSelector(newOrder);
+  const addedIngredients = useAppSelector(dividedIngrtsSelector);
+  const dataNewOrder = useAppSelector(newOrder);
   //  что добавлено в корзину конструктора
   const {
     bunsArr: addedBunArr,
@@ -63,7 +63,7 @@ export const BurgerConstructor: FC = () => {
     }
   }, [addedMainsArr, addedSaucesArr, checkAuth]);
   const goBack = useGoBack();
-  const orderRequest = useSelector(loading);
+  const orderRequest = useAppSelector(loading);
 
   const orderModalData = dataNewOrder || null;
   const onOrderClick = () => {
