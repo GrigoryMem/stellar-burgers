@@ -42,12 +42,6 @@ export const Profile: FC = () => {
       password: prev.password || ''
     }));
   }, [userData]);
-
-  // получаем  данные пользователя при загр  если пользователь авторизован
-  useEffect(() => {
-    // загружаем полученные данных если они есть
-    dispatch(checkAuthWithToken());
-  }, [dispatch]);
   //  сравниваем локальное состояние формы(что сейчас ввели) с данными из стора
   const isFormChanged =
     formValue.name !== userData?.name || formValue.email !== userData?.email;
