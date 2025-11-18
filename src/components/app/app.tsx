@@ -26,6 +26,7 @@ const App = () => {
   // загружаем данные пользователя - данные в т ч необходимые для авторизации на любой странице приложения
   const dispatch = useDispatch();
   useEffect(() => {
+    // проверка токена
     dispatch(checkAuthWithToken());
   }, [dispatch]);
   const goBack = useGoBack();

@@ -1,8 +1,7 @@
-import { getFeedsApi, TFeedsResponse, TOrdersResponse } from '@api';
+import { TFeedsResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TErrorResp, TFullOrder, TOrder, TReadyOrder } from '@utils-types';
+import { TErrorResp, TOrder } from '@utils-types';
 import { ApiClients } from '../../../services/extraArg';
-import { getIngredients } from '../ingredients/ingredientSlice';
 import { RootState } from '../../store';
 
 type updateOrders = {
@@ -85,7 +84,7 @@ export const getUserOrdersThunk = createAsyncThunk<
   }
 });
 
-const feedOrdersSlice = createSlice({
+const commonOrdersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
@@ -140,14 +139,14 @@ const feedOrdersSlice = createSlice({
       });
   }
 });
-export const { setSelectOrder, setOrders } = feedOrdersSlice.actions;
+export const { setSelectOrder, setOrders } = commonOrdersSlice.actions;
 export const feedOrdersSelector = (state: RootState) =>
   state.allOrders.feedOrders.ordersFeed;
 export const userOrdersSelector = (state: RootState) =>
   state.allOrders.userOrders.ordersHistory;
 export const isLoadingSelector = (state: RootState) =>
   state.allOrders.feedOrders.loading;
-export default feedOrdersSlice.reducer;
+export default commonOrdersSlice.reducer;
 export const initialLoadCompletedSelector = (state: RootState) =>
   state.allOrders.feedOrders.initialLoadCompleted;
 export const isFirstUserOrders = (state: RootState) =>

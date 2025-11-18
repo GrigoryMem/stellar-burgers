@@ -12,7 +12,7 @@ import {
 } from './commonOrdersSlice';
 //  эту функцию используем чтобы получить список заказов с подробным описанием ингридиентов
 //  тип аргумента для асинхронного тханка
-type OrderTypeToFetch = 'feed' | 'history';
+export type OrderTypeToFetch = 'feed' | 'history';
 
 export const getOrdersWithInfo =
   (typeThunk: OrderTypeToFetch) =>

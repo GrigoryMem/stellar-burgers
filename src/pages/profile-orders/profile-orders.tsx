@@ -3,7 +3,7 @@ import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { getOrdersWithInfo } from '../../services/slices/orders/getInfoOrders';
-
+import { useLoadOrders } from '../../utils/hooks';
 import {
   isFirstUserOrders,
   userOrdersSelector
@@ -15,16 +15,12 @@ export const ProfileOrders: FC = () => {
   const firstLoading = useSelector(isFirstUserOrders);
   /** TODO: взять переменную из стора */
   const orders: TOrder[] = useSelector(userOrdersSelector);
-
-  useEffect(() => {
-    //  загружаем заказы и ингредиенты к ним
-    const interval = setInterval(() => {
-      dispatch(getOrdersWithInfo('history'));
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [dispatch]);
+  // загрузка заказов истории используя кастом хук
+  useLoadOrders({
+    firstLoading,
+    typeOrders: 'history',
+    asyncThunkFunc: getOrdersWithInfo
+  });
 
   if (!firstLoading) {
     // показываем прелоадер если только первая загрузка заказов не случилась
