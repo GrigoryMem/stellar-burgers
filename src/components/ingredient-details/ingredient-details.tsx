@@ -12,14 +12,12 @@ import { getIngredients } from '../../services/slices/ingredients/ingredientSlic
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
   const { id: ingredientId } = useParams(); // получаем значение динамического маршрута из стора
-  console.log(ingredientId);
   const dispatch = useDispatch();
   //  селектор выбранноо заказа клик на карточку или прямой маршрут:
   const ingredientData = useSelector(selectedIngredient); // если данные есть, если прямой маршрут данных нет
   //  если не кликали на карточку те прямой маршрут:
   // 1 получаем все ингредиенты из стора + useEffect
   const ingredients = useSelector(ingredientsSelector);
-  let classContent = '';
   //  прямой маршрут - загружаем ингредиенты в стор если они еще не загружены
   useEffect(() => {
     if (ingredients.length === 0 && !ingredientData) {

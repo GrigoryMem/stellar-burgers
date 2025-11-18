@@ -78,7 +78,8 @@ export const BurgerConstructor: FC = () => {
     //  очистка хранилища по текущему новому заказу
     dispatch(setCurrentOrder({ show: false, order: null }));
     //  закртываем модалку => см в APP
-    goBack();
+    // и возвращаемся возмондости создания заказа
+    navigate('/');
   };
 
   const price = useMemo(() => {

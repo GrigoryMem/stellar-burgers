@@ -45,6 +45,7 @@ export const getIngredients = createAsyncThunk(
 
 export const ingredientSlice = createSlice({
   name: 'ingredients',
+  initialState,
   reducers: {
     // для открытия модалки
     setSelectedIngredientById: (state, action: PayloadAction<string>) => {
@@ -93,9 +94,15 @@ export const ingredientSlice = createSlice({
         //  сохраняем результат в любом случае
         state.ingredients[index] = element;
       }
+    },
+    clearAllCountsIngredients: (state) => {
+      //  сбрасываем все счетчики ингредиентов - допустим при очищении корзины заказа
+      state.ingredients = state.ingredients.map((ing) => {
+        ing.count = 0;
+        return ing;
+      });
     }
   },
-  initialState,
   extraReducers: (builder) => {
     builder
       .addCase(getIngredients.pending, (state) => {
@@ -119,8 +126,11 @@ export const ingredientSlice = createSlice({
   }
 });
 
-export const { setSelectedIngredientById, changeCountIngredientById } =
-  ingredientSlice.actions;
+export const {
+  setSelectedIngredientById,
+  changeCountIngredientById,
+  clearAllCountsIngredients
+} = ingredientSlice.actions;
 export const selectIngredient = (state: RootState) =>
   state.ingredients.selectedIngredient;
 export const ingredientsSelector = (state: RootState) =>

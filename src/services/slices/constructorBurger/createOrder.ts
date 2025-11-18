@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderBurgerApi } from '@api';
 import { RootState } from '../../store';
 import { prepareToOrder, clearConstructor } from './constrBurgSlice';
+import { clearAllCountsIngredients } from '../ingredients/ingredientSlice';
 
 //  нажмем на кнопку чтобы создать заказ
 export const createOrder = createAsyncThunk(
@@ -18,6 +19,8 @@ export const createOrder = createAsyncThunk(
       const data = await orderBurgerApi(stateIngredients);
       //  очищаем конструктор при успешном ответе от сервера
       dispatch(clearConstructor());
+      //  очищаем счетчики ингредиентов корзины
+      dispatch(clearAllCountsIngredients());
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(`Проблема при создании заказа: ${error}`);
