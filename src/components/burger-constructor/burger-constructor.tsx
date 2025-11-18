@@ -33,19 +33,8 @@ export const BurgerConstructor: FC = () => {
     mainsArr: addedMainsArr,
     saucesArr: addedSaucesArr
   } = filterIngredients(addedIngredients);
-  //  устанавливаем булку по ум в хранилище
-  useEffect(() => {
-    if (defaultBun.length > 0) {
-      const actionType = {
-        type: 'increment' as const,
-        _id: defaultBun[0]._id
-      };
-      dispatch(updateBurgConstrIngreds(actionType));
-    }
-  }, []);
-
   //  либо с клика либо с всех загруженых ингридиентов либо  дефолт
-  const bunData = addedBunArr[0] || defaultBun[0] || null;
+  const bunData = addedBunArr[0] || null;
   const constructorItems = {
     bun: bunData,
     ingredients: [...addedMainsArr, ...addedSaucesArr]
@@ -61,7 +50,6 @@ export const BurgerConstructor: FC = () => {
       return false;
     }
   }, [addedMainsArr, addedSaucesArr, checkAuth]);
-  const goBack = useGoBack();
   const orderRequest = useSelector(loading);
 
   const orderModalData = dataNewOrder || null;

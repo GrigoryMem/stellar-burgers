@@ -14,7 +14,6 @@ export const createOrder = createAsyncThunk(
       //  получаем  актуальное состояние id ингридиентов
       const stateIngredients = (thunkApi.getState() as RootState)
         .constructorBurgers.idIngredsForOrder;
-      console.log(stateIngredients);
       //  создаем заказ и отправляем его на сервер
       const data = await orderBurgerApi(stateIngredients);
       //  очищаем конструктор при успешном ответе от сервера
@@ -27,7 +26,3 @@ export const createOrder = createAsyncThunk(
     }
   }
 );
-
-// //burgerConstructor/createOrder/pending
-// burgerConstructor/createOrder/fulfilled
-// burgerConstructor/createOrder/rejected
