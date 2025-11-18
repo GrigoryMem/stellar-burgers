@@ -7,22 +7,33 @@ import { replaceTwoElements } from '../../services/slices/constructorBurger/cons
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
     const dispatch = useDispatch();
+    //  можно ли переместить элемент вверх или вниз
+    // totalItems - длина массива
+    //  проверяем границы массива
+    const isFirst = index === 0; //  это первый элемент?
+    const isLast = index === totalItems - 1; // это последний элемент
     const handleMoveDown = () => {
-      const lowerIndex = index - 1;
-      const typeAction = {
-        from: index,
-        to: lowerIndex
-      };
-      dispatch(replaceTwoElements(typeAction));
+      // если элемент не последний (который идет после нашего)
+      if (!isLast) {
+        const lowerIndex = index + 1; // получаем след за ним индекс
+        const typeAction = {
+          from: index,
+          to: lowerIndex
+        };
+        dispatch(replaceTwoElements(typeAction));
+      }
     };
 
     const handleMoveUp = () => {
-      const highIndex = index + 1;
-      const typeAction = {
-        from: index,
-        to: highIndex
-      };
-      dispatch(replaceTwoElements(typeAction));
+      //  если эелмент не первый
+      if (!isFirst) {
+        const highIndex = index - 1; // если элемент не первый можем выполнить  перестановку назад
+        const typeAction = {
+          from: index,
+          to: highIndex
+        };
+        dispatch(replaceTwoElements(typeAction));
+      }
     };
 
     const handleClose = () => {

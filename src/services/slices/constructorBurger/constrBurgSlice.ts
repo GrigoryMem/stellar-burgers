@@ -53,9 +53,6 @@ const burgConstrSlice = createSlice({
     //  меняем порядок элементов в массиве добавленных ингредиентов
     replaceTwoElements: (state, action: PayloadAction<TReplacer>) => {
       const { from, to } = action.payload;
-      if (from === to || !state.dividedIngwithId[to]) {
-        return;
-      }
       const temp = state.dividedIngwithId[from];
       const next = state.dividedIngwithId[to];
       //  меняем местами предыдущий и следующий
