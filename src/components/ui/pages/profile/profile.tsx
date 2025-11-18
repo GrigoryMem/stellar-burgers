@@ -6,6 +6,7 @@ import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
+import { checkValidValue } from '../../../../utils/utils';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
@@ -31,8 +32,8 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             onChange={handleInputChange}
             value={formValue.name}
             name={'name'}
-            error={false}
-            errorText={''}
+            error={formValue.name ? false : true}
+            errorText={'Поле имя не может быть пустым'}
             size={'default'}
             icon={'EditIcon'}
           />
@@ -44,8 +45,8 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             onChange={handleInputChange}
             value={formValue.email}
             name={'email'}
-            error={false}
-            errorText={''}
+            error={checkValidValue(formValue.email) ? false : true}
+            errorText={'Введите корректный email'}
             size={'default'}
             icon={'EditIcon'}
           />
@@ -57,8 +58,8 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             onChange={handleInputChange}
             value={formValue.password}
             name={'password'}
-            error={false}
-            errorText={''}
+            error={formValue.password ? false : true}
+            errorText={'Пароль не должен быть пустым'}
             size={'default'}
             icon={'EditIcon'}
           />

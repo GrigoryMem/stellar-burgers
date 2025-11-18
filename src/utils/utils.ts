@@ -164,3 +164,11 @@ export const filterIngredients = (arr: TIngredient[]) => {
   const saucesArr = filterElems(arr, 'type', 'sauce');
   return { bunsArr, mainsArr, saucesArr };
 };
+
+export function checkValidValue(
+  value: string,
+  regexp: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+): boolean {
+  const check = regexp.test(value);
+  return check;
+}

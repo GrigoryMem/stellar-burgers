@@ -45,7 +45,6 @@ export const Profile: FC = () => {
   //  сравниваем локальное состояние формы(что сейчас ввели) с данными из стора
   const isFormChanged =
     formValue.name !== userData?.name || formValue.email !== userData?.email;
-  console.log(isFormChanged);
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     // отправляем данные из ЛОКАЛЬНОГО СОСТОЯНИЯ ФОРМЫ на сервер

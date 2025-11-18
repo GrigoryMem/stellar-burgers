@@ -3,6 +3,7 @@ import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import { loginUser } from '../../services/slices/user/actionsApi/thunks';
 import { isLoadingUserSelector } from '../../services/slices/user/userSlice';
+import { checkValidValue } from '../../utils/utils';
 import { Preloader } from '@ui';
 export const Login: FC = () => {
   const dispatch = useDispatch();
@@ -17,10 +18,9 @@ export const Login: FC = () => {
   if (loading) {
     return <Preloader />;
   }
-
   return (
     <LoginUI
-      errorText=''
+      errorText={checkValidValue(email) ? '' : 'Введите корректный email'}
       email={email}
       setEmail={setEmail}
       password={password}
