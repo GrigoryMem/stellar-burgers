@@ -7,6 +7,7 @@ import {
   TReadyOrder
 } from '@utils-types';
 import { IngridientWithChoseCount } from 'src/services/slices/ingredients/ingredientSlice';
+import { v4 as uuidv4 } from 'uuid';
 //  вернем найденный элемент и его индекс в массиве по ключу элемента(объект)
 export const findElement = <T, K extends keyof T>(
   arr: T[],
@@ -34,7 +35,7 @@ export const filterWithoutElem = <T, K extends keyof T>(
 //  касателньо проекта
 
 // создаем id каждому добавленном ингридиенту в корзине
-
+//  с помощью библиотека uuid, её можно использовать для генерации уникальных идентификаторов
 export const divideIngridientsById = (
   ingredients: IngridientWithChoseCount[]
 ): TConstructorIngredient[] => {
@@ -45,7 +46,8 @@ export const divideIngridientsById = (
     for (let i = 1; i <= countNumber; i++) {
       //  создаем переменную для разделения ингридиентов по id
       let { count, ...rest } = item;
-      let itemWithId = { ...rest, id: String(i) };
+      //  библиотека uuid используем для уникальноо id
+      let itemWithId = { ...rest, id: uuidv4() };
       acc.push(itemWithId);
     }
     return acc;

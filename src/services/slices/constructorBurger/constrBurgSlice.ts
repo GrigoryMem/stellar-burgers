@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient, TOrder } from '@utils-types';
-import {
-  ingredientsSelector,
-  TOperation,
-  ingredientSlice
-} from '../ingredients/ingredientSlice';
+import { v4 as uuidv4 } from 'uuid';
 import { divideIngridientsById } from '../../../utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 import { RootState } from 'src/services/store';
