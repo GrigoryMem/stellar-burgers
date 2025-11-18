@@ -18,6 +18,7 @@ const store = configureStore({
     }),
   devTools: process.env.NODE_ENV !== 'production'
 });
+export type AppStore = typeof store;
 
 export type RootState = ReturnType<typeof rootReducer>;
 
