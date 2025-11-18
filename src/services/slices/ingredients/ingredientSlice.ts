@@ -80,8 +80,8 @@ export const ingredientSlice = createSlice({
           if (ing.type === 'bun') ing.count = 0;
           return ing;
         });
-        // ставим count = 1 для выбранной булки
-        state.ingredients[index].count = 1;
+        // ставим count = 1 для выбранной булки в КОЛИЧЕСТВЕ 2 - 2 булки в зазка
+        state.ingredients[index].count = 2;
       } else {
         // Условие если ингридиент не булка
         // решаем ...либо вычитание либо сложение
