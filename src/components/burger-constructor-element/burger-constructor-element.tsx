@@ -1,12 +1,12 @@
 import { FC, memo } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
-import { useDispatch, AppDispatch } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
 import { replaceTwoElements } from '../../services/slices/constructorBurger/constrBurgSlice';
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const handleMoveDown = () => {
       const lowerIndex = index - 1;
       const typeAction = {

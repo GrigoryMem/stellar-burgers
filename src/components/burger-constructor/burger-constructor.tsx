@@ -2,9 +2,8 @@ import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
-import { useAppSelector, useAppDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { filterIngredients } from '../../utils/utils';
-import { ConstructorElement } from '@zlden/react-developer-burger-ui-components';
 import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
 import { createOrder } from '../../services/slices/constructorBurger/createOrder';
 import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
@@ -19,15 +18,15 @@ import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const dispatch = useAppDispatch();
-  const allIngedients = useAppSelector(ingredientsSelector);
+  const dispatch = useDispatch();
+  const allIngedients = useSelector(ingredientsSelector);
   const navigate = useNavigate();
   //  провера состояния авторизации
-  const checkAuth = useAppSelector(isAuthenticated);
+  const checkAuth = useSelector(isAuthenticated);
   const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
   //  то что добавляю
-  const addedIngredients = useAppSelector(dividedIngrtsSelector);
-  const dataNewOrder = useAppSelector(newOrder);
+  const addedIngredients = useSelector(dividedIngrtsSelector);
+  const dataNewOrder = useSelector(newOrder);
   //  что добавлено в корзину конструктора
   const {
     bunsArr: addedBunArr,
@@ -63,7 +62,7 @@ export const BurgerConstructor: FC = () => {
     }
   }, [addedMainsArr, addedSaucesArr, checkAuth]);
   const goBack = useGoBack();
-  const orderRequest = useAppSelector(loading);
+  const orderRequest = useSelector(loading);
 
   const orderModalData = dataNewOrder || null;
   const onOrderClick = () => {

@@ -1,12 +1,12 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { useDispatch, AppDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { registerUser } from '../../services/slices/user/actionsApi/thunks';
 import { Preloader } from '@ui';
 import { isLoadingUserSelector } from '../../services/slices/user/userSlice';
 
 export const Register: FC = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const loading = useSelector(isLoadingUserSelector);
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');

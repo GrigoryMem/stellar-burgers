@@ -5,7 +5,7 @@ import {
   selectedIngredient,
   setSelectedIngredientById
 } from '../../services/slices/ingredients/ingredientSlice';
-import { useSelector, useDispatch, AppDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
 import { useParams } from 'react-router-dom';
 import { getIngredients } from '../../services/slices/ingredients/ingredientSlice';
@@ -13,7 +13,7 @@ export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
   const { id: ingredientId } = useParams(); // получаем значение динамического маршрута из стора
   console.log(ingredientId);
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   //  селектор выбранноо заказа клик на карточку или прямой маршрут:
   const ingredientData = useSelector(selectedIngredient); // если данные есть, если прямой маршрут данных нет
   //  если не кликали на карточку те прямой маршрут:

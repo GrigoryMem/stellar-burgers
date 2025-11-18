@@ -1,9 +1,9 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector, AppDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { getOrdersWithInfo } from '../../services/slices/orders/getInfoOrders';
-import { getUserOrdersThunk } from '../../services/slices/orders/commonOrdersSlice';
+
 import {
   isFirstUserOrders,
   userOrdersSelector
@@ -11,7 +11,7 @@ import {
 import { Preloader } from '@ui';
 
 export const ProfileOrders: FC = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const firstLoading = useSelector(isFirstUserOrders);
   /** TODO: взять переменную из стора */
   const orders: TOrder[] = useSelector(userOrdersSelector);

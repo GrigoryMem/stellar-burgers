@@ -6,7 +6,7 @@ import {
 } from '../../services/slices/ingredients/ingredientSlice';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useSelector, useDispatch, AppDispatch } from '../../services/store';
+import { useSelector } from '../../services/store';
 import { filterIngredients } from '../../utils/utils';
 
 export const BurgerIngredients: FC = () => {

@@ -3,7 +3,7 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch, AppDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import {
   foundOrderSelector,
   getOrderByNumber
@@ -18,7 +18,7 @@ export const OrderInfo: FC = () => {
   //  получаем номер заказа
   const { number: orderNumber } = useParams();
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const gettingOrder = useSelector(foundOrderSelector);
 
   useEffect(() => {

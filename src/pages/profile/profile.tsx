@@ -4,7 +4,7 @@ import {
   userDataSelector,
   setValuesUserData
 } from '../../services/slices/user/userSlice';
-import { useSelector, AppDispatch, useDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import {
   checkAuthWithToken,
   updateUserData
@@ -24,7 +24,7 @@ export const Profile: FC = () => {
   //   name: userData?.name || '',
   //   email: userData?.email || ''
   // };
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   // Инициализируем локальное состояние формы данными из стора
   // когда данные пользователя уже пришли.- запишем их в фомру
   const [formValue, setFormValue] = useState({

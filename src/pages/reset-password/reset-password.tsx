@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, AppDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   isLoadingUserSelector,
   isErrorUserSelector
@@ -11,7 +11,7 @@ import { Preloader } from '@ui';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const loading = useSelector(isLoadingUserSelector);
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');

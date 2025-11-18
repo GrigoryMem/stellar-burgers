@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch, AppDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { loginUser } from '../../services/slices/user/actionsApi/thunks';
 import { isLoadingUserSelector } from '../../services/slices/user/userSlice';
 import { Preloader } from '@ui';
