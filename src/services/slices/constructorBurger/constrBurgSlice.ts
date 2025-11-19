@@ -3,6 +3,7 @@ import { TIngredient, TConstructorIngredient } from '@utils-types';
 import { divideIngridientsById } from '../../../utils/utils';
 import { IngridientWithChoseCount } from '../ingredients/ingredientSlice';
 import { RootState } from 'src/services/store';
+import { v4 as uuidv4 } from 'uuid';
 
 // парметры замены элементов
 type TReplacer = {
@@ -36,8 +37,34 @@ const burgConstrSlice = createSlice({
     },
     // настроим ингридиенты под корзину конструктора разделив их по id засчте count
     //  для рендера реакт
-    divideIngridients: (state, action) => {
-      state.dividedIngwithId = [...divideIngridientsById(action.payload)];
+    // divideIngridients: (state, action) => {
+    //   state.dividedIngwithId = [...divideIngridientsById(action.payload)];
+    // },
+    divideIngridients: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient[]>) => {
+        state.dividedIngwithId = [...action.payload];
+      },
+      // генерация id
+      prepare: (ingredients: IngridientWithChoseCount[]) => {
+        // создами новый массив размножив ингредиенты засчет count, сгенерировар длякаждого id
+        // кастомизация массива перед добавление
+        const arr = ingredients.reduce<TConstructorIngredient[]>(
+          (acc, ingred) => {
+            const number = ingred.count ?? 1;
+            let elem;
+            for (let i = 1; i <= number; i++) {
+              elem = {
+                ...ingred,
+                id: uuidv4()
+              };
+              acc.push(elem);
+            }
+            return acc;
+          },
+          []
+        );
+        return { payload: arr };
+      }
     },
     // подготовим добавленные ингридиенты в корзине к созданию заказа
     prepareToOrder: (state) => {
