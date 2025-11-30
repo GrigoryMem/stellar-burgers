@@ -33,7 +33,7 @@ export const LoginUI: FC<LoginUIProps> = ({
               value={email}
               name='email'
               error={false}
-              errorText=''
+              errorText={errorText}
               size='default'
             />
           </div>
@@ -45,7 +45,12 @@ export const LoginUI: FC<LoginUIProps> = ({
             />
           </div>
           <div className={`pb-6 ${styles.button}`}>
-            <Button type='primary' size='medium' htmlType='submit'>
+            <Button
+              disabled={!email || !password}
+              type='primary'
+              size='medium'
+              htmlType='submit'
+            >
               Войти
             </Button>
           </div>

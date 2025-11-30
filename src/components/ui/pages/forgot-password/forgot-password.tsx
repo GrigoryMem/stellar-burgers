@@ -32,7 +32,12 @@ export const ForgotPasswordUI: FC<PageUIProps> = ({
           />
         </div>
         <div className={`pb-6 ${styles.button}`}>
-          <Button type='primary' size='medium' htmlType='submit'>
+          <Button
+            disabled={!email}
+            type='primary'
+            size='medium'
+            htmlType='submit'
+          >
             Восстановить
           </Button>
         </div>

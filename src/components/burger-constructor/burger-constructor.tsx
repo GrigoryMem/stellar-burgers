@@ -1,36 +1,84 @@
-import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { FC, useEffect, useMemo } from 'react';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { ingredientsSelector } from '../../services/slices/ingredients/ingredientSlice';
+import { useSelector, useDispatch } from '../../services/store';
+import { filterIngredients } from '../../utils/utils';
+import { dividedIngrtsSelector } from '../../services/slices/constructorBurger/constrBurgSlice';
+import { createOrder } from '../../services/slices/constructorBurger/createOrder';
+import { updateBurgConstrIngreds } from '../../services/slices/constructorBurger/updateBurgerConsrIngreds';
+import {
+  loadingSelectorOrder as loading,
+  selectorCurCreatedOrder as newOrder,
+  setCurrentOrder
+} from '../../services/slices/orders/orderSlice';
+import { useGoBack } from '../../utils/hooks';
+import { isAuthenticated } from '../../services/slices/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  const dispatch = useDispatch();
+  const allIngedients = useSelector(ingredientsSelector);
+  const navigate = useNavigate();
+  //  провера состояния авторизации
+  const checkAuth = useSelector(isAuthenticated);
+  const { bunsArr: defaultBun, ...useless } = filterIngredients(allIngedients);
+  //  то что добавляю
+  const addedIngredients = useSelector(dividedIngrtsSelector);
+  const dataNewOrder = useSelector(newOrder);
+  //  что добавлено в корзину конструктора
+  const {
+    bunsArr: addedBunArr,
+    mainsArr: addedMainsArr,
+    saucesArr: addedSaucesArr
+  } = filterIngredients(addedIngredients);
+  //  либо с клика либо с всех загруженых ингридиентов либо  дефолт
+  const bunData = addedBunArr[0] || null;
   const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
+    bun: bunData,
+    ingredients: [...addedMainsArr, ...addedSaucesArr]
   };
 
-  const orderRequest = false;
+  let lockBtnStatus = useMemo(() => {
+    //  если пользователь ничего не выбрал
+    if (addedMainsArr.length === 0 && addedSaucesArr.length === 0) {
+      //  ставим блок
+      return true;
+    } else {
+      //  снимаем блок
+      return false;
+    }
+  }, [addedMainsArr, addedSaucesArr, checkAuth]);
+  const orderRequest = useSelector(loading);
 
-  const orderModalData = null;
-
+  const orderModalData = dataNewOrder || null;
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+    if (!checkAuth) {
+      navigate('/login');
+    }
+    if (checkAuth) {
+      dispatch(createOrder());
+    }
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    //  очистка хранилища по текущему новому заказу
+    dispatch(setCurrentOrder({ show: false, order: null }));
+    //  закртываем модалку => см в APP
+    // и возвращаемся возмондости создания заказа
+    navigate('/');
+  };
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
-
-  return null;
+  const price = useMemo(() => {
+    // если нет булки то цена 0 - подстраховка
+    if (!constructorItems.bun) return 0;
+    return (
+      constructorItems.bun.price * 2 +
+      constructorItems.ingredients.reduce((s, v) => s + (v?.price || 0), 0)
+    );
+  }, [constructorItems]);
+  // return null;
 
   return (
     <BurgerConstructorUI
@@ -40,6 +88,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      disabled={lockBtnStatus}
     />
   );
 };
