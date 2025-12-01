@@ -1,11 +1,10 @@
+import { clearConstructor } from 'src/services/slices/constructorBurger/constrBurgSlice';
 import store from '../../src/services/store';
 
 describe('ингредиенты', () => {
   beforeEach(() => {
     //  очищать корзину через стор redux перед каждым тестом
-    store.dispatch({
-      type: 'burgerConstructor/clearConstructor'
-    });
+    store.dispatch(clearConstructor());
     // dispatch({type:'burgerConstructor/clearConstructor'});
     //  делаем перехват запросов
     // получили юзера
@@ -65,7 +64,7 @@ describe('ингредиенты', () => {
     //  ожидаем получение булки в корзине
     cy.get('[data-cy=cart-buns]').should('have.length', 1);
   });
-  it('Открытие  модального окна с описанием ингредиента.', () => {
+  it('Открытие и закрытие модального окна с описанием ингредиента.', () => {
     //  заходим на стр ингредиентов
     cy.visit('/');
     //  дождемся пока все необх мок данные загрузится
@@ -76,12 +75,18 @@ describe('ингредиенты', () => {
       .scrollIntoView()
       .should('be.visible')
       .click();
-    //  проверяем что элемент с текстом заголовка мо появился на стр
+    //  проверяем что заголовок с текстом заголовка мо появился на стр
     cy.contains('Ингредиент подробно').should('be.visible');
+    // появление на стр
+    //  получаем кнопку закрытия и если она есть кликаем ее
+    cy.get('[data-cy=btn-m-close]').should('be.visible').click();
+    // проверяем закрылось ли мо окно  - те существует ли оно
+    cy.get('[data-cy=modalUI]').should('not.be.exist');
   });
-
-  // проверим открытие мо
   // it('Закрытие  модального окна с описанием ингредиента.', () =>{
-
+  //   //  заходим на стр ингредиентов
+  //   cy.visit('/');
+  //   //  дождемся пока все необх мок данные загрузится
+  //   cy.wait(['@getUser', '@getIngredients']);
   // });
 });
