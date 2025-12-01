@@ -23,6 +23,7 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
       <li
         data-cy='ingredient'
         data-type={type}
+        data-id={_id}
         onClick={setAdditionInfoIng}
         className={styles.container}
       >
