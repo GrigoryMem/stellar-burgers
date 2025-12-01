@@ -28,14 +28,18 @@ describe('ингредиенты', () => {
         fixture: 'test-ingredients'
       }
     ).as('getIngredients');
-    //  переходим в домашнюю директорию
   });
   afterEach(() => {
+    // очитска данных авторизации
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
   });
   it('Добавление ингредиента из списка ингредиентов в конструктор', () => {
+    //  переходим в домашнюю директорию
     cy.visit('/');
+    // ждем пока все выполнится -ждёт, пока запросы завершатся
+    // чтобы не было преждевременных появления компонентов которых нет
+    cy.wait(['@getUser', '@getIngredients']);
     // добавим булку
     cy.get('[data-cy=ingredient]')
       .filter('[data-type=bun]')
