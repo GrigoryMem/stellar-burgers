@@ -104,13 +104,15 @@ describe('ингредиенты', () => {
     beforeEach(() => {
       cy.intercept('POST', '**/orders', (req) => {
         const ingredients = req.body.ingredients;
+        // динамический кастомный ответ
         req.reply({
           success: true,
           order: {
             number: testNumberOrder,
-            ingredients: ingredients
+            ingredients: ingredients,
+            price: store.getState().constructorBurgers.totalSum
           }
-        })
+        });
       }).as('createOrder');
       const fakeRefrToken =
         '1359788d0a02dg3d8e7edf7eb35b59373028c97923db8eddd65raae617f8b2deb01676918b54ed5c';
@@ -134,13 +136,27 @@ describe('ингредиенты', () => {
       });
       // находим кнопку и  кликаем создать заказ
       //   проверить что кнопка доступна ????
-      cy.get('[data-cy=createOrder]').should('be.visible').click();
+      cy.get('[data-cy=createOrder]')
+        .should('be.visible')
+        .click()
+        .then(() => {
+          // проверим очистку корзины бургера:
+          // ожидаем что в корзине  вообще ничего нет после клика
+          cy.get('[data-cy=cart-ingredients] li').should('have.length', 0);
+        });
       //  ждем ответа  и начинаем с ним работать
       cy.wait('@createOrder').then(({ request, response }) => {
+        //  в запросе верно отразилось количество всех добавленных товаров
+        expect(request.body.ingredients.length).to.equal(
+          // учтем, то что булка это 2 товара в запросе
+          numbersIngredients.length + 1
+        );
         cy.log(request.body);
         cy.log(response?.body);
-        //  количество ингредиентов совпадало ответ - запрос
-        //  номер заказа в модалке с тем заказом который пришел в ответе
+        //  модалка появилась?
+        cy.get('[data-cy=modalUI]').should('be.visible');
+        //  номер заказа тестового ответа отобразился на экране?
+        cy.contains(`${testNumberOrder}`);
       });
     });
   });
