@@ -8,7 +8,7 @@ import {
 import { rootReducerBurger as rootReducer } from './rootReducer';
 import extraArgument from './extraArg';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
