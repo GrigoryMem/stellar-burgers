@@ -1,0 +1,42 @@
+{
+  "success": true,
+  "name": "Метеоритный флюоресцентный бургер",
+  "order": {
+    "createdAt": "2025-12-02T08:51:01.065Z",
+    "ingredients": [
+      {
+        "_id": "643d69a5c3f7b9001cfa0940",
+        "name": "Говяжий метеорит (отбивная)",
+        "type": "main",
+        "proteins": 800,
+        "fat": 800
+      },
+      {
+        "_id": "643d69a5c3f7b9001cfa093d",
+        "name": "Флюоресцентная булка R2-D3",
+        "type": "bun",
+        "proteins": 44,
+        "fat": "26"
+      },
+      {
+        "_id": "643d69a5c3f7b9001cfa093d",
+        "name": "Флюоресцентная булка R2-D3",
+        "type": "bun",
+        "proteins": 44,
+        "fat": "26"
+      }
+    ],
+    "name": "Метеоритный флюоресцентный бургер",
+    "number": 777,
+    "owner": {
+      "createdAt": "2025-11-17T11:00:15.138Z",
+      "email": "ivanov@yandex.ru",
+      "name": "Ivan Ivanov",
+      "updatedAt": "2025-11-18T19:00:02.299Z"
+    },
+    "price": 4976,
+    "status": "done",
+    "updatedAt": "2025-12-02T08:51:01.311Z",
+    "_id": "692ea875a64177001b3219ed"
+  }
+}

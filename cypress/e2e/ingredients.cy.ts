@@ -1,5 +1,9 @@
-import { clearConstructor } from 'src/services/slices/constructorBurger/constrBurgSlice';
+import {
+  clearConstructor,
+  totalSumSelector
+} from 'src/services/slices/constructorBurger/constrBurgSlice';
 import store from '../../src/services/store';
+import { setCookie } from 'src/utils/cookie';
 
 describe('ингредиенты', () => {
   beforeEach(() => {
@@ -27,6 +31,11 @@ describe('ингредиенты', () => {
         fixture: 'test-ingredients'
       }
     ).as('getIngredients');
+
+    //  заходим на стр ингредиентов
+    cy.visit('/');
+    //  дождемся пока все необх мок данные загрузится
+    cy.wait(['@getUser', '@getIngredients']);
   });
   afterEach(() => {
     // очитска данных авторизации
@@ -34,11 +43,6 @@ describe('ингредиенты', () => {
     cy.clearAllLocalStorage();
   });
   it('Добавление ингредиента из списка ингредиентов в конструктор', () => {
-    //  переходим в домашнюю директорию
-    cy.visit('/');
-    // ждем пока все выполнится -ждёт, пока запросы завершатся
-    // чтобы не было преждевременных появления компонентов которых нет
-    cy.wait(['@getUser', '@getIngredients']);
     // добавим булку
     cy.get('[data-cy=ingredient]')
       .filter('[data-type=bun]')
@@ -65,11 +69,7 @@ describe('ингредиенты', () => {
     cy.get('[data-cy=cart-buns]').should('have.length', 1);
   });
   it('Открытие и закрытие модального окна с описанием ингредиента.', () => {
-    //  заходим на стр ингредиентов
-    cy.visit('/');
-    //  дождемся пока все необх мок данные загрузится
-    cy.wait(['@getUser', '@getIngredients']);
-    // находим к-л ингредиент
+    // находим к-л ингредиент и кликаем по нему
     cy.get('[data-cy=ingredient]')
       .eq(0)
       .scrollIntoView()
@@ -84,10 +84,6 @@ describe('ингредиенты', () => {
     cy.get('[data-cy=modalUI]').should('not.be.exist');
   });
   it('Отображение в открытом модальном окне данных именно того ингредиента, по которому произошел клик.', () => {
-    //  заходим на стр ингредиентов
-    cy.visit('/');
-    //  дождемся пока все необх мок данные загрузится
-    cy.wait(['@getUser', '@getIngredients']);
     //  найдем элемент и кликнем по нему
     cy.get('[data-cy=ingredient]')
       .eq(6)
@@ -102,5 +98,50 @@ describe('ингредиенты', () => {
         cy.log('data-id элемента: ' + id); //  тестовый runner
         console.log('data-id элемента: ', id); // DevTools
       });
+  });
+  describe('процесс создания заказа', () => {
+    const testNumberOrder = 777;
+    beforeEach(() => {
+      cy.intercept('POST', '**/orders', (req) => {
+        const ingredients = req.body.ingredients;
+        req.reply({
+          success: true,
+          order: {
+            number: testNumberOrder,
+            ingredients: ingredients
+          }
+        })
+      }).as('createOrder');
+      const fakeRefrToken =
+        '1359788d0a02dg3d8e7edf7eb35b59373028c97923db8eddd65raae617f8b2deb01676918b54ed5c';
+      const fakeAccessToken =
+        'Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ7.eyJpZCI8IjY5MWIwMDNmYTY0MTc3MDAxYjMxZjBhNiIsImlhdCI6MTc2NDYxMzY1OCwiZXhwIjoxNzY0NjE0ODU4mV.Yim07OhJdDNnrZT3x84gNne6V598Y0YZ82gdFMxCKCs';
+      localStorage.setItem('refreshToken', fakeRefrToken);
+      setCookie('accessToken', fakeAccessToken);
+    });
+    it('создаем заказ..', () => {
+      cy.visit('/');
+      //  начнем добавлять ингредиенты включая булку
+      const numbersIngredients = [0, 3, 4, 7, 8];
+      numbersIngredients.forEach((number) => {
+        cy.get('[data-cy=ingredient]')
+          .eq(number) // начнем добавлять
+          .scrollIntoView() // прокрутка чтобы элемент сталвидимым
+          .within(() => {
+            // ограничисся работойс ним
+            cy.get('button').should('be.visible').click();
+          });
+      });
+      // находим кнопку и  кликаем создать заказ
+      //   проверить что кнопка доступна ????
+      cy.get('[data-cy=createOrder]').should('be.visible').click();
+      //  ждем ответа  и начинаем с ним работать
+      cy.wait('@createOrder').then(({ request, response }) => {
+        cy.log(request.body);
+        cy.log(response?.body);
+        //  количество ингредиентов совпадало ответ - запрос
+        //  номер заказа в модалке с тем заказом который пришел в ответе
+      });
+    });
   });
 });
