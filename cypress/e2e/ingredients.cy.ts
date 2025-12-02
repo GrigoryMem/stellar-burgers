@@ -1,7 +1,4 @@
-import {
-  clearConstructor,
-  totalSumSelector
-} from 'src/services/slices/constructorBurger/constrBurgSlice';
+import { clearConstructor } from 'src/services/slices/constructorBurger/constrBurgSlice';
 import store from '../../src/services/store';
 import { setCookie } from 'src/utils/cookie';
 
@@ -104,7 +101,7 @@ describe('ингредиенты', () => {
     beforeEach(() => {
       cy.intercept('POST', '**/orders', (req) => {
         const ingredients = req.body.ingredients;
-        // динамический кастомный ответ
+        // динамический кастомный мок ответ
         req.reply({
           success: true,
           order: {
