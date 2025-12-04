@@ -172,3 +172,28 @@ export function checkValidValue(
   const check = regexp.test(value);
   return check;
 }
+
+// создаем точный клон объекта
+export const createDeepCopyObj = <T>(obj: T) => {
+  const copyObj = JSON.parse(JSON.stringify(obj));
+  return copyObj;
+};
+
+type TPriceAndCount = {
+  totalPrice: number;
+  totalCount: number;
+};
+// определим общее количество всех товаров уже в вью корзине и сумму заказа
+export const calcSumPriceAndALlCount = (
+  ingredients: IngridientWithChoseCount[]
+): TPriceAndCount => {
+  const sumCountsAndCommonPrice: TPriceAndCount = ingredients.reduce(
+    (acc, ingr) => ({
+      totalCount: acc.totalCount + (ingr.count ?? 0),
+      totalPrice: acc.totalPrice + ingr.price
+    }),
+    { totalCount: 0, totalPrice: 0 }
+  );
+
+  return sumCountsAndCommonPrice;
+};

@@ -11,14 +11,15 @@ type TReplacer = {
   to: number;
 };
 
-type TBurgConstrState = {
-  addedIngredients: TIngredient[];
+export type TBurgConstrState = {
+  // addedIngredients: TIngredient[];
+  addedIngredients: IngridientWithChoseCount[];
   dividedIngwithId: TConstructorIngredient[];
   idIngredsForOrder: string[];
   totalSum: number;
 };
 
-const initialState: TBurgConstrState = {
+export const initialState: TBurgConstrState = {
   addedIngredients: [],
   dividedIngwithId: [],
   idIngredsForOrder: [],
