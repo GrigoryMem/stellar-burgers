@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.35% </span>
+                <span class="strong">48.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>140/302</span>
+                <span class='fraction'>146/302</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">13.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>2/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.35% </span>
+                <span class="strong">48.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>140/302</span>
+                <span class='fraction'>146/302</span>
             </div>
         
             
@@ -372,7 +372,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -451,12 +451,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -673,8 +673,8 @@ import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 // Проверка ответа сервера
 const URL = process.env.BURGER_API_URL;
 &nbsp;
-const checkResponse = <span class="fstat-no" title="function not covered" >&lt;T&gt;(res: Response): Promise&lt;T&gt; =&gt;</span>
-<span class="cstat-no" title="statement not covered" >  res.ok ? res.json() : res.json().then((err) =&gt; Promise.reject(err));</span>
+export const checkResponse = &lt;T&gt;(res: Response): Promise&lt;T&gt; =&gt;
+  res.ok ? res.json() <span class="branch-0 cbranch-no" title="branch not covered" >: res.json().then((err) =&gt; Promise.reject(err));</span>
 // Типы для ответов сервера
 type TServerResponse&lt;T&gt; = {
   success: boolean;
@@ -736,7 +736,7 @@ export const fetchWithRefresh = <span class="fstat-no" title="function not cover
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 //  тип ответа от сервера котрый возвращает ингридиенты
-type TIngredientsResponse = TServerResponse&lt;{
+export type TIngredientsResponse = TServerResponse&lt;{
   data: TIngredient[];
 }&gt;;
 //  лента заказов : тип ответа от сервера котрый возвращает объеьм заказов
@@ -752,13 +752,13 @@ export type TOrdersResponse = TServerResponse&lt;{
   data: TOrder[]; // этот параметр должен быть типом ответа в ?getOrdersApi
 }&gt;;
 // получаем ингридиенты
-export const getIngredientsApi = <span class="fstat-no" title="function not covered" >() =&gt;</span>
-<span class="cstat-no" title="statement not covered" >  fetch(`${URL}/ingredients`)</span>
-<span class="cstat-no" title="statement not covered" >    .then((res) =&gt; checkResponse&lt;TIngredientsResponse&gt;(res))</span>
-<span class="cstat-no" title="statement not covered" >    .then((data) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (data?.success) return data.data;</span>
-<span class="cstat-no" title="statement not covered" >      return Promise.reject(data);</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
+export const getIngredientsApi = () =&gt;
+  fetch(`${URL}/ingredients`)
+    .then((res) =&gt; checkResponse&lt;TIngredientsResponse&gt;(res))
+    .then((data) =&gt; {
+      if (data<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>uccess) return data.data;
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >      return Promise.reject(data);</span></span>
+    });
 // получаем ленту заказов
 export const getFeedsApi = <span class="fstat-no" title="function not covered" >() =&gt;</span>
 <span class="cstat-no" title="statement not covered" >  fetch(`${URL}/orders/all`)</span>
@@ -976,7 +976,7 @@ export const logoutApi = <span class="fstat-no" title="function not covered" >()
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-04T09:46:23.247Z
+                at 2025-12-04T13:36:59.654Z
             </div>
         <script src="../prettify.js"></script>
         <script>

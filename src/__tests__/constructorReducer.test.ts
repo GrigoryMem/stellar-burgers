@@ -148,7 +148,7 @@ describe('работа редьюсера конструктора бургер�
       newStateWithoutOne,
       setIngredients([...updateIngredients])
     );
-    // теперь имеем ингредиент сколичеством 2 в корзине
+    // теперь имеем только один ингредиент сколичеством 2 в корзине
     expect(newStateWithIngDecrementCount.addedIngredients[0].count).toBe(2);
     // посмотрим что пользователь увидит данные одного товара в корзине в кол 2 шт разделенныые на 2 позиции в корзине
     const divedeStateIngs = constructorBurgerReducer(

@@ -4,7 +4,7 @@ import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 // Проверка ответа сервера
 const URL = process.env.BURGER_API_URL;
 
-const checkResponse = <T>(res: Response): Promise<T> =>
+export const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 // Типы для ответов сервера
 type TServerResponse<T> = {
@@ -67,7 +67,7 @@ export const fetchWithRefresh = async <T>(
   }
 };
 //  тип ответа от сервера котрый возвращает ингридиенты
-type TIngredientsResponse = TServerResponse<{
+export type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
 //  лента заказов : тип ответа от сервера котрый возвращает объеьм заказов

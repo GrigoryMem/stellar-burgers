@@ -18,9 +18,3 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-console.log(
-  'rootReducer',
-  rootReducerBurger(undefined, { type: 'UNKNOWN_ACTION' })
-);
-console.log('state', store.getState());
