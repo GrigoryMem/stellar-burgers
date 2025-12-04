@@ -53,21 +53,9 @@ describe('тесты обработки асинхронного экшена п
   const ingredErrorState = {
     ingredients: expectedEmptyResult,
     loading: false,
-    error: 'Error',
+    error: 'Error: Service Unavailable',
     selectedIngredient: null
   };
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
-      ok: true,
-      status: 200,
-      json: () =>
-        Promise.resolve({
-          success: true,
-          data: expectedPositiveResult
-        })
-    })
-  ) as unknown as typeof fetch;
-
   // инициализируем тестовый стор
   let store: TestStore;
   beforeEach(() => {
@@ -75,17 +63,44 @@ describe('тесты обработки асинхронного экшена п
     store = setUpTestStore();
   });
   test('начало запроса получ ингр', () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            success: true,
+            data: expectedPositiveResult
+          })
+      })
+    ) as unknown as typeof fetch;
     // выполнение промиса ожидать не нужно
     store.dispatch(getIngredients());
     expect(store.getState().ingredients).toEqual(ingredLoadingState);
   });
   test('успешного вып запроса получ ингр', async () => {
-    // здеьс надо именно выполнить промис тханка с полож рез 
+    // здеьс надо именно выполнить промис тханка с полож рез
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            success: true,
+            data: expectedPositiveResult
+          })
+      })
+    ) as unknown as typeof fetch;
     //  и посмотреть что как кусок стора отреогирует
     await store.dispatch(getIngredients());
     expect(store.getState().ingredients).toEqual(ingredWithSuccessState);
   });
-  // test('ошибки запроса получ ингр', () => {
-
-  // });
+  test('ошибки запроса получ ингр', async () => {
+    // ошибка на уровне приложения
+    global.fetch = jest.fn(() =>
+      Promise.reject('Service Unavailable')
+    ) as unknown as typeof fetch;
+    await store.dispatch(getIngredients());
+    expect(store.getState().ingredients).toEqual(ingredErrorState);
+ });
 });
