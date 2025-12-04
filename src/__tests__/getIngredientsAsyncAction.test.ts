@@ -1,19 +1,12 @@
 import { expect, test, describe, jest } from '@jest/globals';
 import { configureStore } from '@reduxjs/toolkit';
-import {
-  AppDispatch,
-  useDispatch,
-  store,
-  RootState
-} from '../../src/services/store';
 import ingredientSLiceReducer, {
-  getIngredients,
-  ingredientsSelector
+  getIngredients
 } from '../services/slices/ingredients/ingredientSlice';
 import { TIngredient } from '@utils-types';
 import { createDeepCopyObj } from '../utils/utils';
 import { testIngredients } from '../utils/testApi';
-import { checkResponse, TIngredientsResponse } from '@api';
+import { TIngredientsResponse } from '@api';
 
 const setUpTestStore = () => {
   const store = configureStore({
@@ -25,9 +18,6 @@ const setUpTestStore = () => {
 };
 //  типизация тестового состояния
 type TestStore = ReturnType<typeof setUpTestStore>;
-type TestDispatch = TestStore['dispatch'];
-type TestState = ReturnType<TestStore['getState']>;
-type TPromise = Promise<TIngredientsResponse>;
 
 describe('тесты обработки асинхронного экшена получения ингредиентов ', () => {
   //  если ошибка или загрузка  - массив должен быть пустым
@@ -102,5 +92,5 @@ describe('тесты обработки асинхронного экшена п
     ) as unknown as typeof fetch;
     await store.dispatch(getIngredients());
     expect(store.getState().ingredients).toEqual(ingredErrorState);
- });
+  });
 });
