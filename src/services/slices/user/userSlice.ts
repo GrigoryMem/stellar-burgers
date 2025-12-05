@@ -15,7 +15,7 @@ import { RootState } from 'src/services/store';
 
 export type TLoginData = Omit<TRegisterData, 'name'>;
 
-type AuthState = {
+export type AuthState = {
   user: TUser | null;
   isLoading: boolean;
   error: string | null;

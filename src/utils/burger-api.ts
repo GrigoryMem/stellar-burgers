@@ -168,7 +168,7 @@ export type TRegisterData = {
   password: string;
 };
 // тип ответа от сервера котрый возвращает юзера и токены при регистрации или обовлении токена
-type TAuthResponse = TServerResponse<{
+export type TAuthResponse = TServerResponse<{
   refreshToken: string;
   accessToken: string;
   user: TUser;
