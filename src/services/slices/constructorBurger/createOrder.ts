@@ -16,6 +16,7 @@ export const createOrder = createAsyncThunk(
         .constructorBurgers.idIngredsForOrder;
       //  создаем заказ и отправляем его на сервер
       const data = await orderBurgerApi(stateIngredients);
+      console.log(data);
       //  очищаем конструктор при успешном ответе от сервера
       dispatch(clearConstructor());
       //  очищаем счетчики ингредиентов корзины

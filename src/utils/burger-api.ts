@@ -132,7 +132,7 @@ export type dataIngIds = {
   ingredients: string[];
 };
 export const orderBurgerApi = (data: string[]) =>
-  fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
+  fetchWithRefresh<TNewOrderResponse>(`${URL}/orders!`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -149,7 +149,7 @@ export const orderBurgerApi = (data: string[]) =>
 // Этот тип нужен для другого эндпоинта, где сервер возвращает похожие данные,
 // но с другим именем поля — не data, а orders.
 // Эндпоинт /orders/all для общего списка заказов ("/orders/all")
-type TOrderResponse = TServerResponse<{
+export type TOrderResponse = TServerResponse<{
   orders: TOrder[];
 }>;
 // получить информацию о конкретном заказе по его номеру.

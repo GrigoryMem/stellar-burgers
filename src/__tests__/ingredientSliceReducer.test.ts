@@ -1,14 +1,13 @@
-import { expect, test, describe, jest } from '@jest/globals';
-import { configureStore } from '@reduxjs/toolkit';
+import { expect, test, describe } from '@jest/globals';
 import ingredientSLiceReducer, {
   getIngredients,
   TIngredientsState
 } from '../services/slices/ingredients/ingredientSlice';
 import { TIngredient } from '@utils-types';
 import { createDeepCopyObj } from '../utils/utils';
-import { testIngredients } from '../utils/testApi';
+import { testIngredients } from '../utils/testsData/testApi';
 
-describe('тесты обработки асинхронного экшена получения ингредиентов ', () => {
+describe('обработка экшена(при выполнении асинхр запроса) получения ингредиентов ', () => {
   // обозначим начальное состояние ингр-в
   let initialState: TIngredientsState;
   beforeEach(() => {

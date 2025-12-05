@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TReadyOrder } from '@utils-types';
 import { createOrder } from '../constructorBurger/createOrder';
-import { getOrderByNumberApi, TNewOrderResponse, TOrdersResponse } from '@api';
+import { getOrderByNumberApi, TNewOrderResponse, TOrderResponse } from '@api';
 import { RootState } from '../../store';
 //  для модального окна
-type TOrderState = {
+export type TOrderState = {
   currentCreatedOrder: TNewOrderResponse | null;
   loading: boolean;
   error: string | null;

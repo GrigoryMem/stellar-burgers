@@ -19,6 +19,7 @@ import { useDispatch } from '../../services/store';
 import { checkAuthWithToken } from '../../services/slices/user/actionsApi/thunks';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/ingredients/ingredientSlice';
+import { getOrderByNumber } from '../../services/slices/orders/orderSlice';
 
 const App = () => {
   const location = useLocation();
@@ -136,6 +137,7 @@ const App = () => {
 //  <Route path="/login" element={<ProtectedRoute onlyUnAuth><LoginPage/></ProtectedRoute>} />
 export default App;
 
+// Удалить по окончании работы!!!!!!
 console.log(
   getIngredients.fulfilled(
     [
@@ -194,3 +196,22 @@ console.log(
     'Service Unavailable'
   )
 );
+
+console.log(getOrderByNumber.pending('', 777));
+const testFoundedOrder = {
+  _id: '673a9f1c45e812345678abcd',
+  status: 'done',
+  name: 'Метеор-бургер',
+  createdAt: '2025-12-04T10:15:30.000Z',
+  updatedAt: '2025-12-04T10:20:10.000Z',
+  number: 12345,
+  ingredients: [
+    '60d3b41abdacab0026a733c6', // булка
+    '60d3b41abdacab0026a733cd', // соус
+    '60d3b41abdacab0026a733ce', // котлета
+    '60d3b41abdacab0026a733c6' // булка (верх)
+  ],
+  price: 450
+};
+
+console.log(getOrderByNumber.fulfilled(testFoundedOrder, '', 777));
