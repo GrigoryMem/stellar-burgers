@@ -133,16 +133,11 @@ describe('ингредиенты', () => {
       });
       // находим кнопку и  кликаем создать заказ
       //   проверить что кнопка доступна ????
-      cy.get('[data-cy=createOrder]')
-        .should('be.visible')
-        .click()
-        .then(() => {
-          // проверим очистку корзины бургера:
-          // ожидаем что в корзине  вообще ничего нет после клика
-          cy.get('[data-cy=cart-ingredients] li').should('have.length', 0);
-        });
+      cy.get('[data-cy=createOrder]').should('be.visible').click();
       //  ждем ответа  и начинаем с ним работать
       cy.wait('@createOrder').then(({ request, response }) => {
+        // проверим что при клике на кнопку оформления заказ redux очистил корзину
+        cy.get('[data-cy=cart-ingredients] li').should('have.length', 0);
         //  в запросе верно отразилось количество всех добавленных товаров
         expect(request.body.ingredients.length).to.equal(
           // учтем, то что булка это 2 товара в запросе

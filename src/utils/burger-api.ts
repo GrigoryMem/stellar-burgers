@@ -132,7 +132,7 @@ export type dataIngIds = {
   ingredients: string[];
 };
 export const orderBurgerApi = (data: string[]) =>
-  fetchWithRefresh<TNewOrderResponse>(`${URL}/orders!`, {
+  fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
