@@ -1,14 +1,13 @@
-import { clearConstructor } from 'src/services/slices/constructorBurger/constrBurgSlice';
-import store from '../../src/services/store';
 import { setCookie } from 'src/utils/cookie';
-
+import ingredients from '../fixtures/test-ingredients.json';
+import {
+  filteredElementsByIndexes,
+  getPriceOrderByArrIngrs
+} from '../../src/utils/utils';
 describe('ингредиенты', () => {
   beforeEach(() => {
-    //  очищать корзину через стор redux перед каждым тестом
-    store.dispatch(clearConstructor());
-    // dispatch({type:'burgerConstructor/clearConstructor'});
     //  делаем перехват запросов
-    // получили юзера
+    // "получили" юзера
     cy.intercept(
       {
         method: 'GET',
@@ -18,7 +17,7 @@ describe('ингредиенты', () => {
         fixture: 'test-user-data'
       }
     ).as('getUser');
-    // получили ингредиенты
+    // "получили" ингредиенты
     cy.intercept(
       {
         method: 'GET',
@@ -101,13 +100,12 @@ describe('ингредиенты', () => {
     beforeEach(() => {
       cy.intercept('POST', '**/orders', (req) => {
         const ingredients = req.body.ingredients;
-        // динамический кастомный мок ответ
         req.reply({
           success: true,
           order: {
             number: testNumberOrder,
             ingredients: ingredients,
-            price: store.getState().constructorBurgers.totalSum
+            price: 2800
           }
         });
       }).as('createOrder');
@@ -120,17 +118,26 @@ describe('ингредиенты', () => {
     });
     it('создаем заказ..', () => {
       cy.visit('/');
-      //  начнем добавлять ингредиенты включая булку
-      const numbersIngredients = [0, 3, 4, 7, 8];
+      //  начнем добавлять ингредиенты включая только один тип булки
+      const numbersIngredients = [0, 3, 4, 6, 8];
       numbersIngredients.forEach((number) => {
-        cy.get('[data-cy=ingredient]')
-          .eq(number) // начнем добавлять
+        // находим id ингредиента по нумерации из fixture json
+        const ingredId = ingredients.data[number]._id;
+        // кликаем точно по ингредиенту с нужным id
+        cy.get(`[data-id=${ingredId}]`)
           .scrollIntoView() // прокрутка чтобы элемент сталвидимым
           .within(() => {
             // ограничисся работойс ним
             cy.get('button').should('be.visible').click();
           });
       });
+      //  после добаления всех игредиентов в корзину бургера, проверим что на экране появилась корректная сумма всего заказа
+      //  рассчитаем сумму заказа по нумерации json
+      const sumOrder = getPriceOrderByArrIngrs(
+        filteredElementsByIndexes(numbersIngredients, ingredients.data)
+      );
+      //  сравним нумерацию добавленных json fixture и то, что видим на экране - динамическое сравнение с тем что добавили в тесте
+      cy.contains(sumOrder);
       // находим кнопку и  кликаем создать заказ
       //   проверить что кнопка доступна ????
       cy.get('[data-cy=createOrder]').should('be.visible').click();

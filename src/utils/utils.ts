@@ -197,3 +197,21 @@ export const calcSumPriceAndALlCount = (
 
   return sumCountsAndCommonPrice;
 };
+// фильтруем элементы по индексам
+export const filteredElementsByIndexes = (
+  numbersIngredients: number[],
+  ingredients: TIngredient[]
+) => {
+  const addIngredients = ingredients.filter((_, index) =>
+    numbersIngredients.includes(index)
+  );
+  return addIngredients;
+};
+
+//  для тестов подсчет суммы массива игредиентов
+export const getPriceOrderByArrIngrs = (ingredients: TIngredient[]) =>
+  ingredients.reduce(
+    (sum, ingr) =>
+      ingr.type === 'bun' ? sum + ingr.price * 2 : sum + ingr.price,
+    0
+  );

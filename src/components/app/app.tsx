@@ -18,8 +18,7 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { useDispatch } from '../../services/store';
 import { checkAuthWithToken } from '../../services/slices/user/actionsApi/thunks';
 import { useEffect } from 'react';
-import { getIngredients } from '../../services/slices/ingredients/ingredientSlice';
-import { getOrderByNumber } from '../../services/slices/orders/orderSlice';
+import { TIngredient } from '@utils-types';
 
 const App = () => {
   const location = useLocation();
