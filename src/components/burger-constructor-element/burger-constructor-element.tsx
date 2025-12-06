@@ -13,6 +13,7 @@ export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
     const isFirst = index === 0; //  это первый элемент?
     const isLast = index === totalItems - 1; // это последний элемент
     const handleMoveDown = () => {
+      console.log('clickDown');
       // если элемент не последний (который идет после нашего)
       if (!isLast) {
         const lowerIndex = index + 1; // получаем след за ним индекс
@@ -26,6 +27,7 @@ export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
 
     const handleMoveUp = () => {
       //  если эелмент не первый
+      console.log('clickUp');
       if (!isFirst) {
         const highIndex = index - 1; // если элемент не первый можем выполнить  перестановку назад
         const typeAction = {

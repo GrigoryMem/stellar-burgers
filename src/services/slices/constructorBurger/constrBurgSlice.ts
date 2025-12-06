@@ -83,6 +83,8 @@ const burgConstrSlice = createSlice({
       const { from, to } = action.payload;
       const temp = state.dividedIngwithId[from];
       const next = state.dividedIngwithId[to];
+      // защита от неккорректного поведения
+      if (!temp || !next) return;
       //  меняем местами предыдущий и следующий
       state.dividedIngwithId[from] = next;
       state.dividedIngwithId[to] = temp;
