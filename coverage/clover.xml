@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1765026522853" clover="3.2.0">
-  <project timestamp="1765026522853" name="All files">
-    <metrics statements="1659" coveredstatements="1038" conditionals="62" coveredconditionals="48" methods="72" coveredmethods="9" elements="1793" coveredelements="1095" complexity="0" loc="1659" ncloc="1659" packages="8" files="15" classes="15"/>
+<coverage generated="1765147198897" clover="3.2.0">
+  <project timestamp="1765147198897" name="All files">
+    <metrics statements="1657" coveredstatements="1038" conditionals="62" coveredconditionals="48" methods="72" coveredmethods="9" elements="1791" coveredelements="1095" complexity="0" loc="1657" ncloc="1657" packages="8" files="15" classes="15"/>
     <package name="services">
       <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="rootReducer.ts" path="C:\projects\stellar-burgers\src\services\rootReducer.ts">
@@ -23,7 +23,7 @@
       </file>
     </package>
     <package name="services.slices.constructorBurger">
-      <metrics statements="146" coveredstatements="112" conditionals="9" coveredconditionals="7" methods="10" coveredmethods="4"/>
+      <metrics statements="145" coveredstatements="112" conditionals="9" coveredconditionals="7" methods="10" coveredmethods="4"/>
       <file name="constrBurgSlice.ts" path="C:\projects\stellar-burgers\src\services\slices\constructorBurger\constrBurgSlice.ts">
         <metrics statements="117" coveredstatements="101" conditionals="9" coveredconditionals="7" methods="10" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
@@ -145,7 +145,7 @@
         <line num="117" count="1" type="stmt"/>
       </file>
       <file name="createOrder.ts" path="C:\projects\stellar-burgers\src\services\slices\constructorBurger\createOrder.ts">
-        <metrics statements="29" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="28" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -173,8 +173,7 @@
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
       </file>
     </package>
     <package name="services.slices.ingredients">
@@ -953,9 +952,9 @@
       </file>
     </package>
     <package name="utils">
-      <metrics statements="566" coveredstatements="201" conditionals="1" coveredconditionals="1" methods="32" coveredmethods="1"/>
+      <metrics statements="565" coveredstatements="201" conditionals="1" coveredconditionals="1" methods="32" coveredmethods="1"/>
       <file name="burger-api.ts" path="C:\projects\stellar-burgers\src\utils\burger-api.ts">
-        <metrics statements="302" coveredstatements="140" conditionals="0" coveredconditionals="0" methods="15" coveredmethods="0"/>
+        <metrics statements="301" coveredstatements="140" conditionals="0" coveredconditionals="0" methods="15" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1103,7 +1102,7 @@
         <line num="145" count="0" type="stmt"/>
         <line num="146" count="0" type="stmt"/>
         <line num="147" count="0" type="stmt"/>
-        <line num="148" count="0" type="stmt"/>
+        <line num="148" count="1" type="stmt"/>
         <line num="149" count="1" type="stmt"/>
         <line num="150" count="1" type="stmt"/>
         <line num="151" count="1" type="stmt"/>
@@ -1112,13 +1111,13 @@
         <line num="154" count="1" type="stmt"/>
         <line num="155" count="1" type="stmt"/>
         <line num="156" count="1" type="stmt"/>
-        <line num="157" count="1" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
         <line num="158" count="0" type="stmt"/>
         <line num="159" count="0" type="stmt"/>
         <line num="160" count="0" type="stmt"/>
         <line num="161" count="0" type="stmt"/>
         <line num="162" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
         <line num="164" count="1" type="stmt"/>
         <line num="165" count="1" type="stmt"/>
         <line num="166" count="1" type="stmt"/>
@@ -1132,7 +1131,7 @@
         <line num="174" count="1" type="stmt"/>
         <line num="175" count="1" type="stmt"/>
         <line num="176" count="1" type="stmt"/>
-        <line num="177" count="1" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
         <line num="178" count="0" type="stmt"/>
         <line num="179" count="0" type="stmt"/>
         <line num="180" count="0" type="stmt"/>
@@ -1144,14 +1143,14 @@
         <line num="186" count="0" type="stmt"/>
         <line num="187" count="0" type="stmt"/>
         <line num="188" count="0" type="stmt"/>
-        <line num="189" count="0" type="stmt"/>
+        <line num="189" count="1" type="stmt"/>
         <line num="190" count="1" type="stmt"/>
         <line num="191" count="1" type="stmt"/>
         <line num="192" count="1" type="stmt"/>
         <line num="193" count="1" type="stmt"/>
         <line num="194" count="1" type="stmt"/>
         <line num="195" count="1" type="stmt"/>
-        <line num="196" count="1" type="stmt"/>
+        <line num="196" count="0" type="stmt"/>
         <line num="197" count="0" type="stmt"/>
         <line num="198" count="0" type="stmt"/>
         <line num="199" count="0" type="stmt"/>
@@ -1163,13 +1162,13 @@
         <line num="205" count="0" type="stmt"/>
         <line num="206" count="0" type="stmt"/>
         <line num="207" count="0" type="stmt"/>
-        <line num="208" count="0" type="stmt"/>
+        <line num="208" count="1" type="stmt"/>
         <line num="209" count="1" type="stmt"/>
         <line num="210" count="1" type="stmt"/>
         <line num="211" count="1" type="stmt"/>
         <line num="212" count="1" type="stmt"/>
         <line num="213" count="1" type="stmt"/>
-        <line num="214" count="1" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
         <line num="215" count="0" type="stmt"/>
         <line num="216" count="0" type="stmt"/>
         <line num="217" count="0" type="stmt"/>
@@ -1182,9 +1181,9 @@
         <line num="224" count="0" type="stmt"/>
         <line num="225" count="0" type="stmt"/>
         <line num="226" count="0" type="stmt"/>
-        <line num="227" count="0" type="stmt"/>
+        <line num="227" count="1" type="stmt"/>
         <line num="228" count="1" type="stmt"/>
-        <line num="229" count="1" type="stmt"/>
+        <line num="229" count="0" type="stmt"/>
         <line num="230" count="0" type="stmt"/>
         <line num="231" count="0" type="stmt"/>
         <line num="232" count="0" type="stmt"/>
@@ -1197,16 +1196,16 @@
         <line num="239" count="0" type="stmt"/>
         <line num="240" count="0" type="stmt"/>
         <line num="241" count="0" type="stmt"/>
-        <line num="242" count="0" type="stmt"/>
+        <line num="242" count="1" type="stmt"/>
         <line num="243" count="1" type="stmt"/>
         <line num="244" count="1" type="stmt"/>
         <line num="245" count="1" type="stmt"/>
-        <line num="246" count="1" type="stmt"/>
+        <line num="246" count="0" type="stmt"/>
         <line num="247" count="0" type="stmt"/>
         <line num="248" count="0" type="stmt"/>
         <line num="249" count="0" type="stmt"/>
         <line num="250" count="0" type="stmt"/>
-        <line num="251" count="0" type="stmt"/>
+        <line num="251" count="1" type="stmt"/>
         <line num="252" count="1" type="stmt"/>
         <line num="253" count="1" type="stmt"/>
         <line num="254" count="1" type="stmt"/>
@@ -1214,7 +1213,7 @@
         <line num="256" count="1" type="stmt"/>
         <line num="257" count="1" type="stmt"/>
         <line num="258" count="1" type="stmt"/>
-        <line num="259" count="1" type="stmt"/>
+        <line num="259" count="0" type="stmt"/>
         <line num="260" count="0" type="stmt"/>
         <line num="261" count="0" type="stmt"/>
         <line num="262" count="0" type="stmt"/>
@@ -1222,9 +1221,9 @@
         <line num="264" count="0" type="stmt"/>
         <line num="265" count="0" type="stmt"/>
         <line num="266" count="0" type="stmt"/>
-        <line num="267" count="0" type="stmt"/>
+        <line num="267" count="1" type="stmt"/>
         <line num="268" count="1" type="stmt"/>
-        <line num="269" count="1" type="stmt"/>
+        <line num="269" count="0" type="stmt"/>
         <line num="270" count="0" type="stmt"/>
         <line num="271" count="0" type="stmt"/>
         <line num="272" count="0" type="stmt"/>
@@ -1233,7 +1232,7 @@
         <line num="275" count="0" type="stmt"/>
         <line num="276" count="0" type="stmt"/>
         <line num="277" count="0" type="stmt"/>
-        <line num="278" count="0" type="stmt"/>
+        <line num="278" count="1" type="stmt"/>
         <line num="279" count="1" type="stmt"/>
         <line num="280" count="1" type="stmt"/>
         <line num="281" count="1" type="stmt"/>
@@ -1257,7 +1256,6 @@
         <line num="299" count="1" type="stmt"/>
         <line num="300" count="1" type="stmt"/>
         <line num="301" count="1" type="stmt"/>
-        <line num="302" count="1" type="stmt"/>
       </file>
       <file name="cookie.ts" path="C:\projects\stellar-burgers\src\utils\cookie.ts">
         <metrics statements="47" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
