@@ -11,14 +11,15 @@ type TReplacer = {
   to: number;
 };
 
-type TBurgConstrState = {
-  addedIngredients: TIngredient[];
+export type TBurgConstrState = {
+  // addedIngredients: TIngredient[];
+  addedIngredients: IngridientWithChoseCount[];
   dividedIngwithId: TConstructorIngredient[];
   idIngredsForOrder: string[];
   totalSum: number;
 };
 
-const initialState: TBurgConstrState = {
+export const initialState: TBurgConstrState = {
   addedIngredients: [],
   dividedIngwithId: [],
   idIngredsForOrder: [],
@@ -82,6 +83,8 @@ const burgConstrSlice = createSlice({
       const { from, to } = action.payload;
       const temp = state.dividedIngwithId[from];
       const next = state.dividedIngwithId[to];
+      // защита от неккорректного поведения
+      if (!temp || !next) return;
       //  меняем местами предыдущий и следующий
       state.dividedIngwithId[from] = next;
       state.dividedIngwithId[to] = temp;

@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "user": {
+        "email": "ivanIvanov@gmail.ru",
+        "name": "Ivan Ivanov",
+        "password": "12345678qwerty!"
+    }
+} 
+

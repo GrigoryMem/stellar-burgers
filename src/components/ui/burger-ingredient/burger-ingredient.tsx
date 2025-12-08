@@ -13,14 +13,20 @@ import { setSelectedIngredientById } from '../../../services/slices/ingredients/
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
   ({ ingredient, count, handleAdd, locationState }) => {
-    const { image, price, name, _id } = ingredient;
+    const { image, price, name, _id, type } = ingredient;
     const dispatch = useDispatch();
     const setAdditionInfoIng = () => {
       dispatch(setSelectedIngredientById(_id));
     };
 
     return (
-      <li onClick={setAdditionInfoIng} className={styles.container}>
+      <li
+        data-cy='ingredient'
+        data-type={type}
+        data-id={_id}
+        onClick={setAdditionInfoIng}
+        className={styles.container}
+      >
         <Link
           className={styles.article}
           to={`/ingredients/${_id}`}

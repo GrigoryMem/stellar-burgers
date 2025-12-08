@@ -18,6 +18,7 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { useDispatch } from '../../services/store';
 import { checkAuthWithToken } from '../../services/slices/user/actionsApi/thunks';
 import { useEffect } from 'react';
+import { TIngredient } from '@utils-types';
 
 const App = () => {
   const location = useLocation();
@@ -104,7 +105,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal onClose={goBack} title='Ингридиент подробно'>
+              <Modal onClose={goBack} title='Ингредиент подробно'>
                 <IngredientDetails />
               </Modal>
             }

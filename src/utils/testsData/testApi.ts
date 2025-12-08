@@ -1,4 +1,4 @@
-import { TIngredient } from '../utils/types';
+import { TIngredient } from '../types';
 
 export function resolveAfterDelay<T>(
   value: T,

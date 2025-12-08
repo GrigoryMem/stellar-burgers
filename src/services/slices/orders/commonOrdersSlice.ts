@@ -14,22 +14,21 @@ type TMainOptions = {
   error: string | null;
 };
 //  лента всех заказов
-type TFeedState = TMainOptions & {
+export type TFeedState = TMainOptions & {
   ordersFeed: TOrder[];
   total: number;
   totalToday: number;
   initialLoadCompleted: boolean;
 };
 //  история заказов авториз пользователя
-type TUserOrdersState = TMainOptions & {
+export type TUserOrdersState = TMainOptions & {
   ordersHistory: TOrder[];
   initialLoadOrdersCompleted: boolean;
 };
 
-type CommonOrdersState = {
+export type CommonOrdersState = {
   feedOrders: TFeedState;
   userOrders: TUserOrdersState;
-  selectOrder: TOrder[] | null;
 };
 
 const initialState: CommonOrdersState = {
@@ -46,8 +45,7 @@ const initialState: CommonOrdersState = {
     error: null,
     ordersHistory: [],
     initialLoadOrdersCompleted: false
-  },
-  selectOrder: null
+  }
 };
 
 //  выбираем , что будем загружать либо ленте заказов либо историю заказов пользователя
@@ -88,10 +86,6 @@ const commonOrdersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    //  для модалки
-    setSelectOrder(state, action: PayloadAction<TOrder[]>) {
-      state.selectOrder = action.payload;
-    },
     // синхронное обновление полей заказов - форматируем заказы как нам надо
     setOrders(state, action: PayloadAction<updateOrders>) {
       if (action.payload.typeOrders === 'feed') {
@@ -113,14 +107,24 @@ const commonOrdersSlice = createSlice({
         state.feedOrders.error =
           (action.payload as string) || action.error.message || 'Error';
       })
-      .addCase(getFeedOrdersThunk.fulfilled, (state, action) => {
-        state.feedOrders.loading = false;
-        state.feedOrders.ordersFeed = action.payload.orders;
-        state.feedOrders.total = action.payload.total;
-        state.feedOrders.totalToday = action.payload.totalToday;
-        state.feedOrders.initialLoadCompleted = true; // уведомляем о первой загрузке ленты
-        // (нужно чтобы прелоадер не загружался каждый раз при отправке запроса)
-      })
+      .addCase(
+        getFeedOrdersThunk.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            orders: TOrder[];
+            total: number;
+            totalToday: number;
+          }>
+        ) => {
+          state.feedOrders.loading = false;
+          state.feedOrders.ordersFeed = action.payload.orders;
+          state.feedOrders.total = action.payload.total;
+          state.feedOrders.totalToday = action.payload.totalToday;
+          state.feedOrders.initialLoadCompleted = true; // уведомляем о первой загрузке ленты
+          // (нужно чтобы прелоадер не загружался каждый раз при отправке запроса)
+        }
+      )
       // история пользователя
       .addCase(getUserOrdersThunk.pending, (state) => {
         state.userOrders.loading = true;
@@ -131,15 +135,18 @@ const commonOrdersSlice = createSlice({
         state.userOrders.error =
           (action.payload as string) || action.error.message || 'Error';
       })
-      .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
-        state.userOrders.loading = false;
-        state.userOrders.ordersHistory = action.payload;
-        // первая загрузка отмечаем
-        state.userOrders.initialLoadOrdersCompleted = true;
-      });
+      .addCase(
+        getUserOrdersThunk.fulfilled,
+        (state, action: PayloadAction<TOrder[]>) => {
+          state.userOrders.loading = false;
+          state.userOrders.ordersHistory = action.payload;
+          // первая загрузка отмечаем
+          state.userOrders.initialLoadOrdersCompleted = true;
+        }
+      );
   }
 });
-export const { setSelectOrder, setOrders } = commonOrdersSlice.actions;
+export const { setOrders } = commonOrdersSlice.actions;
 export const feedOrdersSelector = (state: RootState) =>
   state.allOrders.feedOrders.ordersFeed;
 export const userOrdersSelector = (state: RootState) =>

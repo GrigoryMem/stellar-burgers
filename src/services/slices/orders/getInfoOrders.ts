@@ -26,25 +26,4 @@ export const getOrdersWithInfo =
     if (typeThunk === 'history') {
       await dispatch(getUserOrdersThunk());
     }
-    // теперь можем работать с актуальным состояние данных
-    // все ингридиенты теперь доступны в хранилище
-    const allIngedients = getState().ingredients.ingredients;
-    //  набор  заказов кот сост id всех ингридиентов:лента и история
-    let freshOrders;
-    // if (typeThunk === 'feed') {
-    //   freshOrders = getState().allOrders.feedOrders.ordersFeed;
-    // }
-    // if (typeThunk === 'history') {
-    //   freshOrders = getState().allOrders.userOrders.ordersHistory;
-    // }
-    // формирование  набора заказов с подробным описанием ингридиентов
-    // const fullOrders = getFullOrdersIngs(
-    //   freshOrders as TOrder[],
-    //   allIngedients
-    // ) as TFullOrder[];
-    //  посчитаем суммы всех заказов и добавим в ордер каждого заказа его общий прайс
-    // const readyOrders = ordersWthPriceandFormatDate(fullOrders);
-    //  затем нам нужно обновить состояние заказов нашими обновленными заказами
-    //  cделаем синхронные диспатчив теже поля
-    // dispatch(setOrders({ orders: readyOrders, typeOrders: typeThunk }));
   };
